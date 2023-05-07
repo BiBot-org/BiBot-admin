@@ -1,22 +1,44 @@
 {
   "name": "bibot-admin",
   "version": "0.1.0",
+  "author": "Woojin Son",
+  "license": "MIT",
   "private": true,
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "lint-fix": "next lint --fix"
   },
   "dependencies": {
+    "@emotion/cache": "^11.10.8",
+    "@emotion/react": "^11.10.8",
+    "@emotion/styled": "^11.10.8",
+    "@heroicons/react": "^2.0.17",
+    "@mui/lab": "^5.0.0-alpha.129",
+    "@mui/material": "^5.12.3",
+    "@mui/styles": "^5.12.3",
+    "@mui/system": "^5.12.3",
+    "@mui/x-date-pickers": "^6.3.1",
     "@types/node": "20.1.0",
     "@types/react": "18.2.5",
     "@types/react-dom": "18.2.4",
+    "apexcharts": "^3.40.0",
+    "date-fns": "^2.30.0",
     "eslint": "8.40.0",
     "eslint-config-next": "13.4.1",
+    "formik": "^2.2.9",
     "next": "13.4.1",
+    "nprogress": "^0.2.0",
+    "prop-types": "^15.8.1",
     "react": "18.2.0",
     "react-dom": "18.2.0",
-    "typescript": "5.0.4"
+    "simplebar-react": "^3.2.4",
+    "typescript": "5.0.4",
+    "yup": "^1.1.1"
+  },
+  "devDependencies": {
+    "@types/nprogress": "^0.2.0"
   }
 }
