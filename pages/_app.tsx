@@ -9,7 +9,9 @@ import { createEmotionCache } from "@/utils/create-emotion-cache";
 import "simplebar-react/dist/simplebar.min.css";
 import { AppProps } from "next/app";
 import { NextPage } from "next";
-import { ReactElement, ReactNode } from "react";
+import type { ReactElement, ReactNode } from "react";
+import Router from "next/router";
+import nProgress from "nprogress";
 
 const clientSideEmotionCache = createEmotionCache();
 
@@ -18,19 +20,24 @@ type NextPageWithLayout = NextPage & {
 };
 
 interface BibotAppProps extends AppProps {
-  emotionCache?: EmotionCache;
+  emotionCache: EmotionCache;
   Component: NextPageWithLayout;
 }
 
-const App = (props: BibotAppProps) => {
+function App(props: BibotAppProps) {
   const { Component, emotionCache = clientSideEmotionCache, pageProps } = props;
   const theme = createTheme();
+
   const getLayout = Component.getLayout ?? ((page) => page);
+
+  Router.events.on("routeChangeStart", nProgress.start);
+  Router.events.on("routeChangeError", nProgress.done);
+  Router.events.on("routeChangeComplete", nProgress.done);
 
   return (
     <CacheProvider value={emotionCache}>
       <Head>
-        <title>Devias Kit</title>
+        <title>BiBot-org</title>
         <meta name="viewport" content="initial-scale=1, width=device-width" />
       </Head>
       <LocalizationProvider dateAdapter={AdapterDateFns}>
@@ -41,6 +48,6 @@ const App = (props: BibotAppProps) => {
       </LocalizationProvider>
     </CacheProvider>
   );
-};
+}
 
 export default App;
