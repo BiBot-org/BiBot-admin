@@ -1,11 +1,12 @@
 export interface NoticeInfo {
   id: string;
   title: string;
-  createdAt: number;
+  content: string;
+  type: string;
+  regTime: string;
 }
 
 export interface IOverviewNotice {
-  notices: NoticeInfo[];
   sx: {
     height: string;
   };

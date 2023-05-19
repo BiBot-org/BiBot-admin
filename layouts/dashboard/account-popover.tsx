@@ -9,14 +9,20 @@ import {
   Popover,
   Typography,
 } from "@mui/material";
+import { signOut } from "next-auth/react";
+import { HandleLogoutSuccess } from "@/service/auth/Handler";
 
 export const AccountPopover = (props: any) => {
   const { anchorEl, onClose, open } = props;
   const router = useRouter();
 
   const handleSignOut = useCallback(() => {
-    onClose?.();
-    router.push("/auth/login");
+    signOut()
+      .then(() => {
+        alert("로그아웃 되었습니다.");
+      })
+      .then(() => HandleLogoutSuccess())
+      .then(() => router.push("/login"));
   }, [onClose, router]);
 
   return (

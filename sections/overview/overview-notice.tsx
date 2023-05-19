@@ -16,10 +16,21 @@ import {
   TableRow,
 } from "@mui/material";
 import { Scrollbar } from "@/components/scrollbar";
-import { IOverviewNotice } from "@/types/notice/noticeType";
+import { IOverviewNotice, NoticeInfo } from "@/types/notice/noticeType";
+import { GetNoticeMain } from "@/service/notice/NoticeService";
+import { useEffect, useState } from "react";
 
 export const OverviewNotice = (props: IOverviewNotice) => {
-  const { notices = [], sx } = props;
+  const { sx } = props;
+  const [noticeListMain, setNoticeListMain] = useState<NoticeInfo[]>([]);
+  useEffect(() => {
+    GetNoticeMain()
+      .then((res) => {
+        const response: NoticeInfo[] = res.data;
+        setNoticeListMain([...response]);
+      })
+      .catch((ex) => console.log(ex));
+  }, []);
 
   return (
     <Card sx={sx}>
@@ -34,13 +45,11 @@ export const OverviewNotice = (props: IOverviewNotice) => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {notices.map((notice) => {
-                const createdAt = format(notice.createdAt, "dd/MM/yyyy");
-
+              {noticeListMain.map((notice) => {
                 return (
-                  <TableRow hover key={notice.id}>
+                  <TableRow hover key={"notice : " + notice.id}>
                     <TableCell>{notice.title}</TableCell>
-                    <TableCell>{createdAt}</TableCell>
+                    <TableCell>{notice.regTime}</TableCell>
                   </TableRow>
                 );
               })}
