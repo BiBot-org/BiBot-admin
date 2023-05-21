@@ -1,5 +1,5 @@
 import { userAuthState } from "@/state/user/atom/userLoginState";
-import { TokenInfo, UserInfo } from "@/types/user/User";
+import { TokenInfo, UserAuthInfo } from "@/types/user/User";
 import { useSetRecoilState } from "recoil";
 
 export function handleTokenInfoSuccess(tokenInfo: TokenInfo) {
@@ -12,10 +12,10 @@ export function handleTokenInfoSuccess(tokenInfo: TokenInfo) {
   localStorage.setItem("refreshToken", tokenInfo.refreshToken);
 }
 
-export function HandleLoginSuccess(userInfo: UserInfo) {
+export function HandleLoginSuccess(userInfo: UserAuthInfo) {
   const setUserInfo = useSetRecoilState(userAuthState);
   setUserInfo({
-    userId: userInfo.sub,
+    userId: userInfo.userId,
     isLogin: true,
   });
 }

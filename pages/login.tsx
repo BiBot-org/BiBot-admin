@@ -16,23 +16,18 @@ import { useSetRecoilState } from "recoil";
 import { userAuthState } from "@/state/user/atom/userLoginState";
 import { getSession, signIn, useSession } from "next-auth/react";
 const Page = () => {
-  // const { data: session, status } = useSession();
+  const { data: session, status } = useSession();
 
-  // const isLogin = session && status === "authenticated";
-  const test = async () => {
-    const session = await getSession();
-    console.log(session);
-  };
+  const isLogin = session && status === "authenticated";
+
   useEffect(() => {
-    test();
-    // if (isLogin) {
-    //   router.push("/");
-    // }
-    // console.log(session, status);
-  }, []);
+    if (isLogin) {
+      router.push("/");
+    }
+    console.log(session, status);
+  }, [isLogin]);
 
   const router = useRouter();
-  const [method, setMethod] = useState("email");
   const setUserInfo = useSetRecoilState(userAuthState);
 
   const formik = useFormik({
@@ -48,25 +43,20 @@ const Page = () => {
         .required("이메일을 입력 해 주세요."),
       password: Yup.string().max(255).required("비밀번호를 입력 해 주세요."),
     }),
-    onSubmit: async (values, helpers) => {
+    onSubmit: async (values) => {
       await signIn("keycloak", {
         username: values.email,
         password: values.password,
       })
         .then(() => {
           alert("환영합니다.");
+        })
+        .then(() => {
           router.push("/");
         })
         .catch(() => alert("아이디와 비밀번호를 확인하세요"));
     },
   });
-
-  const handleMethodChange = useCallback(
-    (event: any, value: SetStateAction<string>) => {
-      setMethod(value);
-    },
-    []
-  );
 
   return (
     <>
@@ -93,17 +83,6 @@ const Page = () => {
           <div>
             <Stack spacing={1} sx={{ mb: 3 }}>
               <Typography variant="h4">로그인</Typography>
-              <Typography color="text.secondary" variant="body2">
-                계정이 없습니까? &nbsp;
-                <Link
-                  component={NextLink}
-                  href="/auth/register"
-                  underline="hover"
-                  variant="subtitle2"
-                >
-                  회원가입
-                </Link>
-              </Typography>
             </Stack>
 
             <form noValidate onSubmit={formik.handleSubmit}>

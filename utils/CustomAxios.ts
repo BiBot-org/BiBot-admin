@@ -10,9 +10,9 @@ export const CustomAxios = axios.create({
 
 CustomAxios.interceptors.request.use(async (config) => {
   const session = await getSession();
-  // if (session) {
-  //   config.headers.Authorization = "Bearer " + session.info.accessToken;
-  // }
+  if (session) {
+    config.headers.Authorization = "Bearer " + session.tokenInfo.accessToken;
+  }
 
   if (config.data instanceof FormData) {
     config.headers["Content-Type"] = "application/form-data";

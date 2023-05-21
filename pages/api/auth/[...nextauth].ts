@@ -1,7 +1,7 @@
 import { keycloakSignIn, reissueToken } from "@/service/auth/AuthService";
 import { TokenRes } from "@/types/user/User";
 
-import { CookiesOptions, Session, User } from "next-auth";
+import { CookiesOptions, Session, SessionUser, User } from "next-auth";
 import { JWT } from "next-auth/jwt";
 import NextAuth from "next-auth/next";
 import CredentialsProvider from "next-auth/providers/credentials";
@@ -14,31 +14,37 @@ export const jwtCallback = async ({
   user: User;
 }) => {
   console.log("wasssssup jwtToken callback");
-
   if (token?.expiresIn) {
     console.log("1번 조건");
     if (Math.floor(Date.now() / 1000) < token?.expiresIn!!) {
       console.log("아무 일 없음");
+      console.log(token, user);
       return { ...token };
     } else if (
       token?.refreshToken &&
       Math.floor(Date.now() / 1000) < token.refreshExpiresIn!!
     ) {
       console.log("2번 조건");
+      console.log(token);
       const newTokenData: TokenRes = await reissueToken(token.refreshToken!!);
-      token.access_token = newTokenData.accessToken;
-      token.expires_in = newTokenData.expiresIn;
-      token.refresh_token = newTokenData.refreshToken;
-      token.refresh_expires_in = newTokenData.refreshExpiresIn;
+      console.log(newTokenData);
+      token.accessToken = newTokenData.accessToken;
+      token.expiresIn = newTokenData.expiresIn;
+      token.refreshToken = newTokenData.refreshToken;
+      token.refreshExpiresIn = newTokenData.refreshExpiresIn;
       return { ...token };
     }
   }
+  console.log("login");
   token.accessToken = user.tokenRes.accessToken;
   token.refreshToken = user.tokenRes.refreshToken;
   token.expiresIn = user.tokenRes.expiresIn;
   token.refreshExpiresIn = user.tokenRes.refreshExpiresIn;
-  console.log(token, user);
-  return { ...token, ...user };
+  const sessionUser: SessionUser = {
+    id: user.id,
+    roles: user.roles,
+  };
+  return { ...token, ...sessionUser };
 };
 
 export const session = ({
@@ -48,18 +54,18 @@ export const session = ({
   session: Session;
   token: JWT;
 }): Promise<Session> => {
+  console.log("Waaaaasup Session Callback", session, token);
   if (
     Math.floor(Date.now() / 1000) > token?.expiresIn! &&
     token?.refreshTokenExpires &&
     Math.floor(Date.now() / 1000) > token?.refreshExpiresIn!
   ) {
+    //TODO -> 로그아웃 핸들러 달아야함
     return Promise.reject({
       error: new Error("토큰이 만료되었습니다. 재 로그인 해 주세요."),
     });
   }
-
-  session.info = token;
-  console.log("Waaaaasup Session Callback", session, token);
+  session.tokenInfo = token;
   return Promise.resolve(session);
 };
 

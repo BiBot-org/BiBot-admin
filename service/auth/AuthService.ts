@@ -38,8 +38,6 @@ export async function keycloakSignIn(username: string, password: string) {
           const userInfo: KeycloakUserInfoRes = res.data;
           return {
             id: userInfo.sub,
-            name: userInfo.family_name + " " + userInfo.given_name,
-            email: userInfo.email,
             roles: userInfo.resource_access.bibot.roles,
             tokenRes: {
               accessToken: tokenResponse.access_token,
@@ -56,7 +54,6 @@ export async function keycloakSignIn(username: string, password: string) {
 }
 
 export async function reissueToken(refreshToken: string) {
-  console.log("refresh :" + refreshToken);
   return await axios
     .post(
       "http://localhost:8080/realms/bibot-org/protocol/openid-connect/token",
@@ -92,7 +89,7 @@ export async function LogoutSession() {
       {
         client_id: "bibot",
         client_secret: "TernKB1t10oLGlSL2wfch0w777z58FsO",
-        refresh_token: session.info.refreshToken,
+        refresh_token: session.tokenInfo.refreshToken,
       },
       {
         headers: {
