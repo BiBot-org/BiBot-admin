@@ -10,6 +10,7 @@ import {
   Divider,
   Typography,
 } from "@mui/material";
+import { styled } from "@mui/system";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 
 interface iProp {
@@ -17,6 +18,11 @@ interface iProp {
   open: boolean;
   noticeId: number;
 }
+
+const NoticeModalCard = styled(Card)({
+  minWidth: 320,
+  maxWidth: 500,
+});
 
 export const NoticeModal = (props: iProp) => {
   const { onClose, open, noticeId } = props;
@@ -38,7 +44,7 @@ export const NoticeModal = (props: iProp) => {
 
   return (
     <Dialog onClose={onClose} open={open}>
-      <Card>
+      <NoticeModalCard>
         <CardHeader title={notice.title} subheader="작성자" />
         <Divider />
         <CardContent>
@@ -48,7 +54,7 @@ export const NoticeModal = (props: iProp) => {
           <Button variant="contained">수정</Button>
           <Button variant="contained">삭제</Button>
         </CardActions>
-      </Card>
+      </NoticeModalCard>
     </Dialog>
   );
 };
