@@ -48,7 +48,7 @@ export const OverviewApproval = (props: IOverviewApproval) => {
                 const createdAt = format(approval.createdAt, "dd/MM/yyyy");
 
                 return (
-                  <TableRow hover key={approval.id}>
+                  <TableRow hover key={"approval : " + approval.id}>
                     <TableCell>{approval.id}</TableCell>
                     <TableCell>{approval.name}</TableCell>
                     <TableCell>{`${approval.division} / ${approval.team}`}</TableCell>

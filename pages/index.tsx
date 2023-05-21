@@ -13,22 +13,28 @@ import {
 import { ReactElement, useEffect, useState } from "react";
 import { Layout as DashboardLayout } from "@/layouts/dashboard/layout";
 import { OverviewNotice } from "@/sections/overview/overview-notice";
-import { noticeMockData } from "@/data/notices/noticeData";
 import { approvalOverviewMockData } from "@/data/approvals/approvalData";
 import { OverviewApproval } from "@/sections/overview/overview-approval";
+import { useRouter } from "next/router";
+import { useSession } from "next-auth/react";
 
 const Page = () => {
   const [isGuideOpen, setIsGuideOpen] = useState<boolean>(false);
   const [isInit, setIsInit] = useState<boolean>(false);
+  const { data: session, status } = useSession();
+  const router = useRouter();
+
   const handleGuideOpen = () => {
     setIsGuideOpen(true);
   };
   const handleGuideClose = () => {
     setIsGuideOpen(false);
   };
+
   useEffect(() => {
     if (!isInit) {
       handleGuideOpen();
+      console.log(session, status);
     }
   }, []);
 
@@ -67,7 +73,6 @@ const Page = () => {
           <Grid container spacing={2}>
             <Grid xs={12} sm={12} lg={12}>
               <OverviewNotice
-                notices={noticeMockData}
                 sx={{
                   height: "100%",
                 }}

@@ -1,11 +1,23 @@
 export interface NoticeInfo {
-  id: string;
+  id: number;
   title: string;
-  createdAt: number;
+  content: string;
+  type: string;
+  regTime: string;
+}
+
+export interface iNotice {
+  id: number;
+  title: string;
+  content: string;
+  tpye: string;
+  createdBy: string;
+  modifiedBy: string;
+  regTime: string;
+  updateTime: string;
 }
 
 export interface IOverviewNotice {
-  notices: NoticeInfo[];
   sx: {
     height: string;
   };

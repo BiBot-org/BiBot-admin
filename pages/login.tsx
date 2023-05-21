@@ -1,50 +1,71 @@
+import {
+  ReactElement,
+  SetStateAction,
+  useCallback,
+  useEffect,
+  useState,
+} from "react";
 import Head from "next/head";
 import NextLink from "next/link";
 import { useRouter } from "next/navigation";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { Box, Button, Link, Stack, TextField, Typography } from "@mui/material";
-// import { useAuth } from "src/hooks/use-auth";
 import { Layout as AuthLayout } from "@/layouts/auth/layout";
-import { ReactElement } from "react";
-
+import { useSetRecoilState } from "recoil";
+import { userAuthState } from "@/state/user/atom/userLoginState";
+import { getSession, signIn, useSession } from "next-auth/react";
 const Page = () => {
+  const { data: session, status } = useSession();
+
+  const isLogin = session && status === "authenticated";
+
+  useEffect(() => {
+    if (isLogin) {
+      router.push("/");
+    }
+    console.log(session, status);
+  }, [isLogin]);
+
   const router = useRouter();
-  //   const auth = useAuth();
+  const setUserInfo = useSetRecoilState(userAuthState);
+
   const formik = useFormik({
     initialValues: {
       email: "",
-      name: "",
       password: "",
       submit: null,
     },
     validationSchema: Yup.object({
       email: Yup.string()
-        .email("Must be a valid email")
+        .email("유효한 이메일을 입력 하셔야 합니다.")
         .max(255)
-        .required("Email is required"),
-      name: Yup.string().max(255).required("Name is required"),
-      password: Yup.string().max(255).required("Password is required"),
+        .required("이메일을 입력 해 주세요."),
+      password: Yup.string().max(255).required("비밀번호를 입력 해 주세요."),
     }),
-    onSubmit: async (values, helpers) => {
-      //   try {
-      //     await auth.signUp(values.email, values.name, values.password);
-      //     router.push("/");
-      //   } catch (err) {
-      //     helpers.setStatus({ success: false });
-      //     helpers.setErrors({ submit: err.message });
-      //     helpers.setSubmitting(false);
-      //   }
+    onSubmit: async (values) => {
+      await signIn("keycloak", {
+        username: values.email,
+        password: values.password,
+      })
+        .then(() => {
+          alert("환영합니다.");
+        })
+        .then(() => {
+          router.push("/");
+        })
+        .catch(() => alert("아이디와 비밀번호를 확인하세요"));
     },
   });
 
   return (
     <>
       <Head>
-        <title>BiBot | 관리자 계정 등록</title>
+        <title>BiBot | 로그인</title>
       </Head>
       <Box
         sx={{
+          backgroundColor: "background.paper",
           flex: "1 1 auto",
           alignItems: "center",
           display: "flex",
@@ -61,36 +82,16 @@ const Page = () => {
         >
           <div>
             <Stack spacing={1} sx={{ mb: 3 }}>
-              <Typography variant="h4">관리자 계정 등록</Typography>
-              <Typography color="text.secondary" variant="body2">
-                이미 계정이 있습니까? &nbsp;
-                <Link
-                  component={NextLink}
-                  href="/auth/login"
-                  underline="hover"
-                  variant="subtitle2"
-                >
-                  Log in
-                </Link>
-              </Typography>
+              <Typography variant="h4">로그인</Typography>
             </Stack>
+
             <form noValidate onSubmit={formik.handleSubmit}>
               <Stack spacing={3}>
-                <TextField
-                  error={!!(formik.touched.name && formik.errors.name)}
-                  fullWidth
-                  helperText={formik.touched.name && formik.errors.name}
-                  label="Name"
-                  name="name"
-                  onBlur={formik.handleBlur}
-                  onChange={formik.handleChange}
-                  value={formik.values.name}
-                />
                 <TextField
                   error={!!(formik.touched.email && formik.errors.email)}
                   fullWidth
                   helperText={formik.touched.email && formik.errors.email}
-                  label="Email Address"
+                  label="이메일"
                   name="email"
                   onBlur={formik.handleBlur}
                   onChange={formik.handleChange}
@@ -101,7 +102,7 @@ const Page = () => {
                   error={!!(formik.touched.password && formik.errors.password)}
                   fullWidth
                   helperText={formik.touched.password && formik.errors.password}
-                  label="Password"
+                  label="비밀번호"
                   name="password"
                   onBlur={formik.handleBlur}
                   onChange={formik.handleChange}
@@ -121,12 +122,12 @@ const Page = () => {
                 type="submit"
                 variant="contained"
               >
-                Continue
+                로그인
               </Button>
             </form>
           </div>
         </Box>
-      </Box>
+      </Box>{" "}
     </>
   );
 };
