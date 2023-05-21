@@ -53,7 +53,9 @@ export const AccountPopover = (props: any) => {
           px: 2,
         }}
       >
-        <Typography variant="overline">마이페이지</Typography>
+        <Typography variant="overline" onClick={() => router.push("/mypage")}>
+          마이페이지
+        </Typography>
       </Box>
       <Divider />
       <MenuList

@@ -1,20 +1,37 @@
 import MagnifyingGlassIcon from "@heroicons/react/24/solid/MagnifyingGlassIcon";
-import { Card, InputAdornment, OutlinedInput, SvgIcon } from "@mui/material";
+import {
+  Button,
+  Card,
+  CardActions,
+  CardContent,
+  Grid,
+  InputAdornment,
+  OutlinedInput,
+  Select,
+  SvgIcon,
+  TextField,
+} from "@mui/material";
 
 export const UserSearch = () => (
-  <Card sx={{ p: 2 }}>
-    <OutlinedInput
-      defaultValue=""
-      fullWidth
-      placeholder="사원 명"
-      startAdornment={
-        <InputAdornment position="start">
-          <SvgIcon color="action" fontSize="small">
-            <MagnifyingGlassIcon />
-          </SvgIcon>
-        </InputAdornment>
-      }
-      sx={{ maxWidth: 500 }}
-    />
+  <Card>
+    <CardContent>
+      <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
+        <Grid xs={3}>
+          <Select fullWidth label="부서"></Select>
+        </Grid>
+        <Grid xs={3}>
+          <Select fullWidth label="팀"></Select>
+        </Grid>
+        <Grid xs={3}>
+          <TextField fullWidth label="사원 명" />
+        </Grid>
+        <Grid xs={3}>
+          <Select fullWidth label="정렬 조건"></Select>
+        </Grid>
+      </Grid>
+    </CardContent>
+    <CardActions sx={{ justifyContent: "flex-end" }}>
+      <Button variant="contained">검색</Button>
+    </CardActions>
   </Card>
 );

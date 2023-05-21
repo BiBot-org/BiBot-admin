@@ -8,6 +8,34 @@ export interface UserAuthReq {
   password: string;
 }
 
+export interface UserAccountInfo {
+  id: string;
+  firstName: string;
+  lastName: string;
+  profileUrl: string;
+  departmentName: string;
+  teamName: string;
+  rank: string;
+  duty: string;
+  email: string;
+}
+
+export interface NewUserAccountReq {
+  firstName: string;
+  lastName: string;
+  profileUrl: string;
+  departmentId: number;
+  teamId: number;
+  rankId: number;
+  duty: string;
+  email: string;
+}
+
+export interface DepartmentInfo {
+  id: number;
+  name: string;
+}
+
 export interface TokenInfo {
   accessToken: string;
   refreshToken: string;

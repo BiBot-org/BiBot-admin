@@ -1,6 +1,7 @@
 import Head from "next/head";
 import {
   Box,
+  Button,
   Container,
   Unstable_Grid2 as Grid,
   Stack,
