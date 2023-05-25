@@ -1,5 +1,6 @@
 import { userAuthState } from "@/state/user/atom/userLoginState";
-import { TokenInfo, UserAuthInfo } from "@/types/user/User";
+import { TokenInfo } from "@/types/auth/types";
+import { UserAuthInfo } from "@/types/user/User";
 import { useSetRecoilState } from "recoil";
 
 export function handleTokenInfoSuccess(tokenInfo: TokenInfo) {

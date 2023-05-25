@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-max-props-per-line */
 import { ReactElement, SetStateAction, useCallback, useState } from "react";
 import Head from "next/head";
 import NextLink from "next/link";
@@ -8,6 +9,7 @@ import {
   Box,
   Button,
   FormHelperText,
+  Grid,
   Link,
   Stack,
   Tab,
@@ -16,19 +18,101 @@ import {
   Typography,
 } from "@mui/material";
 import { Layout as InitLayout } from "@/layouts/init/layout";
+import { InitSetup1 } from "@/sections/initSetup/initSetup1";
+import { InitSetupReq } from "@/types/user/User";
+import { InitSetup2 } from "@/sections/initSetup/initSetup2";
+import { InitSetup3 } from "@/sections/initSetup/initSetup3";
+import { InitSetup0 } from "@/sections/initSetup/initSetup0";
+import { InitSetup4 } from "@/sections/initSetup/initSetup4";
 
 const Page = () => {
   const router = useRouter();
+  const [stepId, setStepId] = useState<number>(0);
+  const [inputData, setInputData] = useState<InitSetupReq>({
+    rootEmail: "",
+    rootPassword: "",
+    firstName: "",
+    lastName: "",
+    email: "",
+    password: "",
+    confirm: false,
+    departmentList: [],
+    categoryList: [],
+    rootTeamName: "",
+  });
 
-  const handleSkip = useCallback(() => {
-    // auth.skip();
-    router.push("/");
-  }, [router]);
+  const handleStepNext = () => {
+    if (stepId === 1) {
+      if (inputData.confirm) {
+        setStepId(stepId + 1);
+      }
+    } else {
+      setStepId(stepId + 1);
+    }
+  };
+
+  const handleStepPrev = () => {
+    if (stepId > 1) {
+      setStepId(stepId - 1);
+    }
+  };
+
+  const steps: any = [
+    {
+      0: (
+        <InitSetup0
+          inputData={inputData}
+          setInputData={setInputData}
+          setStepId={setStepId}
+        />
+      ),
+    },
+    {
+      1: (
+        <InitSetup1
+          inputData={inputData}
+          setInputData={setInputData}
+          handleStepNext={handleStepNext}
+          handleStepPrev={handleStepPrev}
+        />
+      ),
+    },
+    {
+      2: (
+        <InitSetup2
+          inputData={inputData}
+          setInputData={setInputData}
+          handleStepNext={handleStepNext}
+          handleStepPrev={handleStepPrev}
+        />
+      ),
+    },
+    {
+      3: (
+        <InitSetup3
+          inputData={inputData}
+          setInputData={setInputData}
+          handleStepNext={handleStepNext}
+          handleStepPrev={handleStepPrev}
+        />
+      ),
+    },
+    {
+      4: (
+        <InitSetup4
+          inputData={inputData}
+          setInputData={setInputData}
+          handleStepNext={handleStepNext}
+          handleStepPrev={handleStepPrev}
+        />
+      ),
+    },
+  ];
 
   return (
     <>
       <Head>
-        <title>BiBot | 로그인</title>
+        <title>BiBot | 초기셋업</title>
       </Head>
       <Box
         sx={{
@@ -47,44 +131,7 @@ const Page = () => {
             width: "100%",
           }}
         >
-          <div>
-            <Stack spacing={1} sx={{ mb: 3 }}>
-              <Typography variant="h4">환영합니다!</Typography>
-              <Typography color="text.secondary" variant="body2">
-                관리자 정보를 입력 해 주세요
-              </Typography>
-            </Stack>
-
-            <form noValidate>
-              <Stack spacing={3}>
-                <TextField fullWidth label="이메일" name="email" type="email" />
-                <TextField
-                  fullWidth
-                  label="비밀번호"
-                  name="password"
-                  type="password"
-                />
-              </Stack>
-
-              <Button
-                fullWidth
-                size="large"
-                sx={{ mt: 3 }}
-                type="submit"
-                variant="contained"
-              >
-                관리자 계정 등록
-              </Button>
-              {/* <Button
-                fullWidth
-                size="large"
-                sx={{ mt: 3 }}
-                onClick={handleSkip}
-              >
-                Skip authentication
-              </Button> */}
-            </form>
-          </div>
+          {steps[stepId][stepId]}
         </Box>
       </Box>
     </>

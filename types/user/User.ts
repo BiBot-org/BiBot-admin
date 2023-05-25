@@ -1,3 +1,38 @@
+export interface InitSetupReq {
+  rootEmail: string;
+  rootPassword: string;
+  firstName: string;
+  lastName: string;
+  email: string;
+  password: string;
+  confirm: boolean;
+  departmentList: iDepartmentInit[];
+  categoryList: iCategoryInit[];
+  rootTeamName: string;
+}
+
+export interface iDepartmentInit {
+  name: string;
+  teams: string[];
+}
+
+export interface CreateUserReq {
+  firstName: string;
+  lastName: string;
+  profileUrl: string;
+  email: string;
+  password: string;
+  duty: string;
+  teamId: number;
+}
+
+export interface iCategoryInit {
+  name: string;
+  limitation: number;
+  automatedCost: number;
+  resetCycle: string;
+}
+
 export interface UserAuthInfo {
   userId: string;
   isLogin: boolean;
@@ -6,6 +41,11 @@ export interface UserAuthInfo {
 export interface UserAuthReq {
   userEmail: string;
   password: string;
+}
+
+export interface VerifyEmailReq {
+  email: string;
+  verifyCode: string;
 }
 
 export interface UserAccountInfo {
@@ -34,42 +74,6 @@ export interface NewUserAccountReq {
 export interface DepartmentInfo {
   id: number;
   name: string;
-}
-
-export interface TokenInfo {
-  accessToken: string;
-  refreshToken: string;
-  tokenExpiresIn: number;
-  refreshTokenExpiresIn: number;
-}
-
-export interface KeycloakTokenRes {
-  access_token: string;
-  expires_in: number;
-  refresh_expires_in: number;
-  refresh_token: string;
-  token_type: string;
-  not_before_policy: number;
-  session_state: string;
-  scope: string;
-}
-
-export interface TokenRes {
-  accessToken: string;
-  expiresIn: number;
-  refreshToken: string;
-  refreshExpiresIn: number;
-}
-
-export interface KeycloakUserInfoRes {
-  email: string;
-  email_verified: boolean;
-  resource_access: ResourceAccess;
-  family_name: string;
-  given_name: string;
-  name: string;
-  preferred_username: string;
-  sub: string;
 }
 
 export interface ResourceAccess {

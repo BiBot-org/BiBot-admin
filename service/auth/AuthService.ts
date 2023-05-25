@@ -1,9 +1,7 @@
-import { KeycloakTokenRes, KeycloakUserInfoRes } from "@/types/user/User";
 import { CustomAxios } from "@/utils/CustomAxios";
-import { HandleLogoutSuccess } from "./Handler";
-import { User } from "next-auth";
 import { getSession } from "next-auth/react";
 import axios from "axios";
+import { KeycloakTokenRes, KeycloakUserInfoRes } from "@/types/auth/types";
 
 export async function keycloakSignIn(username: string, password: string) {
   return await axios
@@ -14,7 +12,7 @@ export async function keycloakSignIn(username: string, password: string) {
         username: username,
         password: password,
         client_id: "bibot",
-        client_secret: "TernKB1t10oLGlSL2wfch0w777z58FsO",
+        client_secret: "UzA54JarMBtp7myDE9d6HoyVTlaDNImF",
       },
       {
         headers: {
@@ -35,6 +33,7 @@ export async function keycloakSignIn(username: string, password: string) {
           }
         )
         .then((res) => {
+          console.log(res.data);
           const userInfo: KeycloakUserInfoRes = res.data;
           return {
             id: userInfo.sub,
@@ -61,7 +60,7 @@ export async function reissueToken(refreshToken: string) {
         grant_type: "refresh_token",
         refresh_token: refreshToken,
         client_id: "bibot",
-        client_secret: "TernKB1t10oLGlSL2wfch0w777z58FsO",
+        client_secret: "UzA54JarMBtp7myDE9d6HoyVTlaDNImF",
       },
       {
         headers: {
@@ -88,7 +87,7 @@ export async function LogoutSession() {
       "http://localhost:8080/realms/bibot-org/protocol/openid-connect/logout",
       {
         client_id: "bibot",
-        client_secret: "TernKB1t10oLGlSL2wfch0w777z58FsO",
+        client_secret: "UzA54JarMBtp7myDE9d6HoyVTlaDNImF",
         refresh_token: session.tokenInfo.refreshToken,
       },
       {
