@@ -1,10 +1,28 @@
 import { keycloakSignIn, reissueToken } from "@/service/auth/AuthService";
-import { TokenRes } from "@/types/user/User";
-
-import { CookiesOptions, Session, SessionUser, User } from "next-auth";
+import { TokenRes } from "@/types/auth/types";
+import {
+  Account,
+  CookiesOptions,
+  Profile,
+  Session,
+  SessionUser,
+  User,
+} from "next-auth";
 import { JWT } from "next-auth/jwt";
 import NextAuth from "next-auth/next";
 import CredentialsProvider from "next-auth/providers/credentials";
+
+// export const signIn = async ({
+//   user,
+//   account,
+//   credentials,
+// }: {
+//   user: User;
+//   account: Account;
+//   credentials: any;
+// }) => {
+//   console.log(user);
+// };
 
 export const jwtCallback = async ({
   token,
@@ -88,7 +106,6 @@ export default NextAuth({
           credentials?.password as string
         )
           .then((res) => {
-            console.log(res);
             return res;
           })
           .catch(() => Promise.reject());
@@ -99,6 +116,7 @@ export default NextAuth({
     signIn: "/login",
   },
   callbacks: {
+    // signIn: signIn,
     jwt: jwtCallback,
     session: session,
   },

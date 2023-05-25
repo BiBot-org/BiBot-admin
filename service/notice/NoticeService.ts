@@ -1,6 +1,6 @@
 import Config from "@/config/config.export";
+import { CustomAxios } from "@/constant/CustomAxios";
 import { iNotice } from "@/types/notice/noticeType";
-import { CustomAxios } from "@/utils/CustomAxios";
 
 const { baseUrl } = Config();
 

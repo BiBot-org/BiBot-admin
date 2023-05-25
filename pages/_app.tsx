@@ -9,7 +9,7 @@ import { createEmotionCache } from "@/utils/create-emotion-cache";
 import "simplebar-react/dist/simplebar.min.css";
 import { AppProps } from "next/app";
 import { NextPage } from "next";
-import type { ReactElement, ReactNode } from "react";
+import { useEffect, type ReactElement, type ReactNode } from "react";
 import Router from "next/router";
 import nProgress from "nprogress";
 import { MutableSnapshot, RecoilRoot, SetRecoilState } from "recoil";
