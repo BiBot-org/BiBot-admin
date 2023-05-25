@@ -1,6 +1,6 @@
 import Config from "@/config/config.export";
+import { CustomAxios } from "@/constant/CustomAxios";
 import { VerifyEmailReq } from "@/types/user/User";
-import { CustomAxios } from "@/utils/CustomAxios";
 const { baseUrl } = Config();
 
 export async function IsInit() {

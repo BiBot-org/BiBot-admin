@@ -1,7 +1,7 @@
-import { CustomAxios } from "@/utils/CustomAxios";
 import { getSession } from "next-auth/react";
 import axios from "axios";
 import { KeycloakTokenRes, KeycloakUserInfoRes } from "@/types/auth/types";
+import { CustomAxios } from "@/constant/CustomAxios";
 
 export async function keycloakSignIn(username: string, password: string) {
   return await axios

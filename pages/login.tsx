@@ -15,18 +15,27 @@ import { Layout as AuthLayout } from "@/layouts/auth/layout";
 import { useSetRecoilState } from "recoil";
 import { userAuthState } from "@/state/user/atom/userLoginState";
 import { getSession, signIn, useSession } from "next-auth/react";
+import { getServerSession } from "next-auth";
+
+// export async function getServerSideProps(result: any) {
+//   const session = await getServerSession();
+//   console.log(session);
+//   if (session) {
+//     result.res.writeHead(302, {
+//       Location: "/",
+//     });
+//     result.res.end();
+//     return {
+//       props: {},
+//     };
+//   } else {
+//     return {
+//       props: {},
+//     };
+//   }
+// }
+
 const Page = () => {
-  const { data: session, status } = useSession();
-
-  const isLogin = session && status === "authenticated";
-
-  useEffect(() => {
-    if (isLogin) {
-      router.push("/");
-    }
-    console.log(session, status);
-  }, [isLogin]);
-
   const router = useRouter();
   const setUserInfo = useSetRecoilState(userAuthState);
 
