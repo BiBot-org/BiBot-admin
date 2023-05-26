@@ -12,13 +12,44 @@ import {
 } from "@mui/material";
 import { Scrollbar } from "@/components/scrollbar";
 import { CreateOrChangeUserModal } from "../account/account-create-modal";
-import { SetStateAction, useState } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 import { UserInfoModal } from "../account/account-info-modal";
+import {
+  BibotUserDTO,
+  BibotUserInfo,
+  SearchBibotUser,
+} from "@/types/user/User";
+import { SearchBibotUserRes } from "@/types/user/ResponseType";
+import { SearchBibotUserReq } from "@/types/user/RequestType";
 
-export const UserTable = () => {
+interface Props {
+  searchUser: SearchBibotUser;
+  searchParam: SearchBibotUserReq;
+  setSearchParam: Dispatch<SetStateAction<SearchBibotUserReq>>;
+}
+
+export const UserTable = ({
+  searchUser,
+  searchParam,
+  setSearchParam,
+}: Props) => {
   const [openCreateUserModal, setOpenCreateUserModal] =
     useState<boolean>(false);
   const [openUserInfoModal, setOpenUserInfoModal] = useState<boolean>(false);
+  const [selectedUser, setSelectedUser] = useState<BibotUserInfo>(
+    {} as BibotUserInfo
+  );
+  const handleOnChangePageNo = (
+    e: React.ChangeEvent<unknown>,
+    value: number
+  ) => {
+    setSearchParam({ ...searchParam, page: value });
+  };
+
+  const handleClickTableRow = (user: BibotUserInfo) => {
+    setSelectedUser(user);
+    setOpenUserInfoModal(true);
+  };
 
   return (
     <>
@@ -29,6 +60,7 @@ export const UserTable = () => {
       <UserInfoModal
         onClose={() => setOpenUserInfoModal(false)}
         open={openUserInfoModal}
+        userInfo={selectedUser}
       />
       <Card>
         <Scrollbar>
@@ -39,73 +71,37 @@ export const UserTable = () => {
                   <TableCell>역할</TableCell>
                   <TableCell>부서</TableCell>
                   <TableCell>소속</TableCell>
-                  <TableCell>직급</TableCell>
                   <TableCell>직책</TableCell>
                   <TableCell>이름</TableCell>
                   <TableCell>결재건</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
-                <TableRow onClick={() => setOpenUserInfoModal(true)}>
-                  <TableCell>관리자</TableCell>
-                  <TableCell>개발 1센터</TableCell>
-                  <TableCell>스파로스 개발팀</TableCell>
-                  <TableCell>매니저</TableCell>
-                  <TableCell>연구원</TableCell>
-                  <TableCell>드루와</TableCell>
-                  <TableCell>5 / 9</TableCell>
-                </TableRow>
-                <TableRow>
-                  <TableCell>관리자</TableCell>
-                  <TableCell>개발 1센터</TableCell>
-                  <TableCell>스파로스 개발팀</TableCell>
-                  <TableCell>매니저</TableCell>
-                  <TableCell>연구원</TableCell>
-                  <TableCell>드루와</TableCell>
-                  <TableCell>5 / 9</TableCell>
-                </TableRow>
-                <TableRow>
-                  <TableCell>관리자</TableCell>
-                  <TableCell>개발 1센터</TableCell>
-                  <TableCell>스파로스 개발팀</TableCell>
-                  <TableCell>매니저</TableCell>
-                  <TableCell>연구원</TableCell>
-                  <TableCell>드루와</TableCell>
-                  <TableCell>5 / 9</TableCell>
-                </TableRow>
-                <TableRow>
-                  <TableCell>관리자</TableCell>
-                  <TableCell>개발 1센터</TableCell>
-                  <TableCell>스파로스 개발팀</TableCell>
-                  <TableCell>매니저</TableCell>
-                  <TableCell>연구원</TableCell>
-                  <TableCell>드루와</TableCell>
-                  <TableCell>5 / 9</TableCell>
-                </TableRow>
-                <TableRow>
-                  <TableCell>관리자</TableCell>
-                  <TableCell>개발 1센터</TableCell>
-                  <TableCell>스파로스 개발팀</TableCell>
-                  <TableCell>매니저</TableCell>
-                  <TableCell>연구원</TableCell>
-                  <TableCell>드루와</TableCell>
-                  <TableCell>5 / 9</TableCell>
-                </TableRow>
-                <TableRow>
-                  <TableCell>관리자</TableCell>
-                  <TableCell>개발 1센터</TableCell>
-                  <TableCell>스파로스 개발팀</TableCell>
-                  <TableCell>매니저</TableCell>
-                  <TableCell>연구원</TableCell>
-                  <TableCell>드루와</TableCell>
-                  <TableCell>5 / 9</TableCell>
-                </TableRow>
+                {searchUser.content &&
+                  searchUser.content.map((user) => (
+                    <>
+                      <TableRow
+                        key={`userRow : ${user.bibotUser.id}`}
+                        onClick={() => handleClickTableRow(user)}
+                      >
+                        <TableCell>{user.bibotUser.userRole}</TableCell>
+                        <TableCell>{user.department.name}</TableCell>
+                        <TableCell>{user.team.name}</TableCell>
+                        <TableCell>{user.bibotUser.duty}</TableCell>
+                        <TableCell>{`${user.bibotUser.lastName} ${user.bibotUser.firstName}`}</TableCell>
+                        <TableCell>5 / 9</TableCell>
+                      </TableRow>
+                    </>
+                  ))}
               </TableBody>
             </Table>
           </Box>
         </Scrollbar>
         <CardActions sx={{ justifyContent: "flex-end", flexDirection: "row" }}>
-          <Pagination count={10} />
+          <Pagination
+            count={searchUser.totalPages}
+            page={searchUser.pageNo + 1}
+          />
         </CardActions>
         <CardActions sx={{ justifyContent: "flex-end", flexDirection: "row" }}>
           <Button

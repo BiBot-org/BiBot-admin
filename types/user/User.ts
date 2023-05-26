@@ -1,3 +1,6 @@
+import { DepartmentDTO } from "../department/types";
+import { TeamDTO } from "../team/types";
+
 export interface InitSetupReq {
   rootEmail: string;
   rootPassword: string;
@@ -9,6 +12,30 @@ export interface InitSetupReq {
   departmentList: iDepartmentInit[];
   categoryList: iCategoryInit[];
   rootTeamName: string;
+}
+
+export interface BibotUserInfo {
+  bibotUser: BibotUserDTO;
+  department: DepartmentDTO;
+  team: TeamDTO;
+}
+
+export interface SearchBibotUser {
+  content: BibotUserInfo[];
+  pageNo: number;
+  totalPages: number;
+  totalElements: number;
+  last: boolean;
+}
+
+export interface BibotUserDTO {
+  id: string;
+  firstName: string;
+  lastName: string;
+  userRole: string;
+  profileUrl: string;
+  email: string;
+  duty: string;
 }
 
 export interface iDepartmentInit {

@@ -52,8 +52,10 @@ export const OverviewNotice = (props: IOverviewNotice) => {
             <Table>
               <TableHead>
                 <TableRow>
-                  <TableCell>제목</TableCell>
-                  <TableCell sortDirection="desc">Date</TableCell>
+                  <TableCell style={{ width: "70%" }}>제목</TableCell>
+                  <TableCell style={{ width: "30%" }} sortDirection="desc">
+                    Date
+                  </TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>

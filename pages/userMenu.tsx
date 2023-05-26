@@ -1,16 +1,9 @@
 import Head from "next/head";
-import {
-  Box,
-  Button,
-  Container,
-  Unstable_Grid2 as Grid,
-  Stack,
-  Typography,
-} from "@mui/material";
+import { Box } from "@mui/material";
 import { Layout as DashboardLayout } from "@/layouts/dashboard/layout";
-import { UserTable } from "@/sections/user/user-table";
-import { UserSearch } from "@/sections/user/user-search";
+
 import { ReactElement } from "react";
+import { UserPageContent } from "@/sections/user/user-page-content";
 const now = new Date();
 
 const Page = () => (
@@ -25,13 +18,7 @@ const Page = () => (
         py: 8,
       }}
     >
-      <Container maxWidth="xl">
-        <Stack spacing={3}>
-          <Typography variant="h4">사원 정보 조회</Typography>
-          <UserSearch />
-          <UserTable />
-        </Stack>
-      </Container>
+      <UserPageContent />
     </Box>
   </>
 );

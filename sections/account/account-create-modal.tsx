@@ -17,8 +17,9 @@ import {
 } from "@mui/material";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { Box, styled } from "@mui/system";
-import { GetAllDepartmentInfo } from "@/service/user/UserService";
 import { DepartmentInfo } from "@/types/user/User";
+import { GetAllDepartmentInfo } from "@/service/department/DepartmentService";
+import { DepartmentDTO } from "@/types/department/types";
 
 interface iProp {
   onClose: Dispatch<SetStateAction<boolean>>;
@@ -29,7 +30,7 @@ interface iProp {
 export const CreateOrChangeUserModal = (props: iProp) => {
   const { onClose, open, userId } = props;
   const [userAccountInfo, setUserAccountInfo] = useState({});
-  const [departmentList, setDepartmentList] = useState<string[]>([]);
+  const [departmentList, setDepartmentList] = useState<DepartmentDTO[]>([]);
 
   useEffect(() => {
     if (userId) {
@@ -39,7 +40,7 @@ export const CreateOrChangeUserModal = (props: iProp) => {
 
   useEffect(() => {
     GetAllDepartmentInfo().then((res) => {
-      console.log(res);
+      setDepartmentList([...res.data]);
     });
   }, []);
 
@@ -78,14 +79,11 @@ export const CreateOrChangeUserModal = (props: iProp) => {
                   <TextField fullWidth label="이름" />
                   <TextField fullWidth label="아이디" />
                   <TextField fullWidth label="유저 이메일" />
-                  <Select fullWidth label="부서">
-                    <MenuItem>개발 1센터</MenuItem>
+                  <Select fullWidth value="xx">
+                    <MenuItem value="xx">부서</MenuItem>
                   </Select>
-                  <Select fullWidth label="팀">
-                    <MenuItem>개발 1팀</MenuItem>
-                  </Select>
-                  <Select fullWidth label="직급">
-                    <MenuItem>개발자</MenuItem>
+                  <Select fullWidth value="xx">
+                    <MenuItem value="xx">팀</MenuItem>
                   </Select>
                   <TextField fullWidth label="직책" />
                 </Grid>
