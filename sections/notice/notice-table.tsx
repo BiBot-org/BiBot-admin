@@ -15,6 +15,7 @@ import {
   TableRow,
   Typography,
   CardActions,
+  Button,
 } from "@mui/material";
 import { Scrollbar } from "@/components/scrollbar";
 import { NoticeModal } from "./notice-modal";
@@ -39,7 +40,7 @@ export const NoticeTable = () => {
             <Table>
               <TableHead>
                 <TableRow>
-                  <TableCell>No</TableCell>
+                  <TableCell style={{ width: "20%" }}>No</TableCell>
                   <TableCell>공지사항</TableCell>
                 </TableRow>
               </TableHead>
@@ -73,8 +74,10 @@ export const NoticeTable = () => {
             </Table>
           </Box>
         </Scrollbar>
+
         <CardActions sx={{ justifyContent: "flex-end" }}>
           <Pagination count={10} />
+          <Button variant="contained">작성하기</Button>
         </CardActions>
       </Card>
     </>

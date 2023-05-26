@@ -11,31 +11,15 @@ import {
   Unstable_Grid2 as Grid,
 } from "@mui/material";
 import { CreateOrChangeUserModal } from "./account-create-modal";
+import { BibotUserInfo } from "@/types/user/User";
 
-export const AccountProfileDetails = () => {
-  const [values, setValues] = useState({
-    email: "demo@devias.io",
-    state: "los-angeles",
-    country: "USA",
-    identificationNumber: "12341234",
-    name: "Spharos",
-    phoneNumber: "010-1234-1234",
-    division: "개발 1센터",
-    team: "스파로스 개발팀",
-    lank: "Manager",
-  });
+interface Prop {
+  userInfo: BibotUserInfo;
+}
+
+export const AccountProfileDetails = ({ userInfo }: Prop) => {
   const [openChangeUserModal, setOpenChangeUserModal] =
     useState<boolean>(false);
-
-  const handleChange = useCallback(
-    (event: { target: { name: any; value: any } }) => {
-      setValues((prevState) => ({
-        ...prevState,
-        [event.target.name]: event.target.value,
-      }));
-    },
-    []
-  );
 
   const handleSubmit = useCallback((event: { preventDefault: () => void }) => {
     event.preventDefault();
@@ -56,40 +40,20 @@ export const AccountProfileDetails = () => {
               <Grid xs={12} md={6}>
                 <TextField
                   fullWidth
-                  label="이름"
-                  name="lastName"
-                  onChange={handleChange}
-                  required
-                  value={values.name}
-                />
-              </Grid>
-              <Grid xs={12} md={6}>
-                <TextField
-                  fullWidth
                   label="부서 / 팀"
                   name="division / team"
-                  onChange={handleChange}
                   required
-                  value={`${values.division} / ${values.team}`}
+                  value={`${userInfo.department.name} / ${userInfo.team.name}`}
                 />
               </Grid>
+
               <Grid xs={12} md={6}>
                 <TextField
                   fullWidth
-                  label="연락처"
-                  name="email"
-                  onChange={handleChange}
-                  value={values.phoneNumber}
-                />
-              </Grid>
-              <Grid xs={12} md={6}>
-                <TextField
-                  fullWidth
-                  label="직급"
+                  label="직책"
                   name="country"
-                  onChange={handleChange}
                   required
-                  value={values.lank}
+                  value={userInfo.bibotUser.duty}
                 />
               </Grid>
               <Grid xs={12} md={6}>
@@ -97,10 +61,9 @@ export const AccountProfileDetails = () => {
                   fullWidth
                   label="이메일"
                   name="state"
-                  onChange={handleChange}
                   required
                   aria-readonly
-                  value={values.email}
+                  value={userInfo.bibotUser.email}
                 ></TextField>
               </Grid>
             </Grid>

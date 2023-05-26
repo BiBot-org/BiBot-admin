@@ -1,3 +1,4 @@
+import { BibotUserInfo } from "@/types/user/User";
 import {
   Avatar,
   Box,
@@ -18,7 +19,11 @@ const user = {
   lank: "사원",
 };
 
-export const AccountProfile = () => (
+interface Props {
+  userInfo: BibotUserInfo;
+}
+
+export const AccountProfile = ({ userInfo }: Props) => (
   <Card>
     <CardContent>
       <Box
@@ -37,13 +42,10 @@ export const AccountProfile = () => (
           }}
         />
         <Typography gutterBottom variant="h5">
-          {user.name}
+          {`${userInfo.bibotUser.lastName} ${userInfo.bibotUser.firstName}`}
         </Typography>
-        <Typography color="text.secondary" variant="body2">
-          {user.division} {user.team}
-        </Typography>
-        <Typography color="text.secondary" variant="body2">
-          {user.lank}
+        <Typography color="text.secondary" variant="body1">
+          {`${userInfo.department.name} ${userInfo.team.name}`}
         </Typography>
       </Box>
     </CardContent>

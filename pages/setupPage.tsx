@@ -9,6 +9,7 @@ import { ReactElement, useCallback, useEffect, useState } from "react";
 import { GetAllCategoryList } from "@/service/category/CategoryService";
 import { GetAllCategoryListRes } from "@/service/category/ResponseType";
 import { CategoryDTO } from "@/types/category/ResponseTypes";
+import { SettingPageContent } from "@/sections/setting/setting-page-content";
 const now = new Date();
 
 const Page = () => {
@@ -37,29 +38,14 @@ const Page = () => {
       <Head>
         <title>BiBot | 환경설정 </title>
       </Head>
-      <Box>
-        <Container maxWidth="xl">
-          <Stack spacing={3}>
-            <div>
-              <Typography variant="h4">경비 항목 설정</Typography>
-            </div>
-            <div>
-              <Grid container spacing={3}>
-                <Grid xs={12} md={6} lg={4}>
-                  <SetupCategories
-                    categoryList={categoryList}
-                    setSelectedCategory={setSelectedCategory}
-                  />
-                </Grid>
-                <Grid xs={12} md={6} lg={8}>
-                  <SettingCategoriesDetails
-                    selectedCategory={selectedCategory}
-                  />
-                </Grid>
-              </Grid>
-            </div>
-          </Stack>
-        </Container>
+      <Box
+        component="main"
+        sx={{
+          flexGrow: 1,
+          py: 8,
+        }}
+      >
+        <SettingPageContent />
       </Box>
     </>
   );

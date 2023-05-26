@@ -1,11 +1,7 @@
 import Head from "next/head";
 import { Box, Container, Unstable_Grid2 as Grid, Stack } from "@mui/material";
 import { Layout as DashboardLayout } from "@/layouts/dashboard/layout";
-import { OverviewNotice } from "@/sections/overview/overview-notice";
-import { OverviewApproval } from "@/sections/overview/overview-approval";
 import { Typography } from "@mui/material";
-import { SetupCategories } from "@/sections/setting/setting-categories";
-import { SettingCategoriesDetails } from "@/sections/setting/setting-categories-detail";
 import { ReactElement } from "react";
 import { SetupManager } from "@/sections/setting/setting-managers";
 import { SetupManagerDetails } from "@/sections/setting/setting-manager-detail";
