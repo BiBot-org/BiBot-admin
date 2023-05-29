@@ -7,9 +7,9 @@ import { SettingCategoriesDetails } from "@/sections/setting/setting-categories-
 import { ReactElement, useCallback, useEffect, useState } from "react";
 
 import { GetAllCategoryList } from "@/service/category/CategoryService";
-import { GetAllCategoryListRes } from "@/service/category/ResponseType";
 import { CategoryDTO } from "@/types/category/ResponseTypes";
 import { SettingPageContent } from "@/sections/setting/setting-page-content";
+import { GetAllCategoryListRes } from "@/types/category/ResponseType";
 const now = new Date();
 
 const Page = () => {
@@ -54,5 +54,5 @@ const Page = () => {
 Page.getLayout = (page: ReactElement) => (
   <DashboardLayout>{page}</DashboardLayout>
 );
-
+Page.auth = true;
 export default Page;

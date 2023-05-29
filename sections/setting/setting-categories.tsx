@@ -1,5 +1,3 @@
-import { GetAllCategoryList } from "@/service/category/CategoryService";
-import { GetAllCategoryListRes } from "@/service/category/ResponseType";
 import { CategoryDTO } from "@/types/category/ResponseTypes";
 
 import {

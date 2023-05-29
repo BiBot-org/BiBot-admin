@@ -21,24 +21,25 @@ import {
 } from "@/types/user/User";
 import { SearchBibotUserRes } from "@/types/user/ResponseType";
 import { SearchBibotUserReq } from "@/types/user/RequestType";
+import { DepartmentInfo } from "@/types/department/types";
+import { UserTableRow } from "./user-table-row";
 
 interface Props {
   searchUser: SearchBibotUser;
   searchParam: SearchBibotUserReq;
+  departmentInfoList: DepartmentInfo[];
   setSearchParam: Dispatch<SetStateAction<SearchBibotUserReq>>;
 }
 
 export const UserTable = ({
   searchUser,
   searchParam,
+  departmentInfoList,
   setSearchParam,
 }: Props) => {
   const [openCreateUserModal, setOpenCreateUserModal] =
     useState<boolean>(false);
-  const [openUserInfoModal, setOpenUserInfoModal] = useState<boolean>(false);
-  const [selectedUser, setSelectedUser] = useState<BibotUserInfo>(
-    {} as BibotUserInfo
-  );
+
   const handleOnChangePageNo = (
     e: React.ChangeEvent<unknown>,
     value: number
@@ -46,21 +47,13 @@ export const UserTable = ({
     setSearchParam({ ...searchParam, page: value });
   };
 
-  const handleClickTableRow = (user: BibotUserInfo) => {
-    setSelectedUser(user);
-    setOpenUserInfoModal(true);
-  };
-
   return (
     <>
       <CreateOrChangeUserModal
         onClose={() => setOpenCreateUserModal(false)}
+        departmentInfoList={departmentInfoList}
         open={openCreateUserModal}
-      />
-      <UserInfoModal
-        onClose={() => setOpenUserInfoModal(false)}
-        open={openUserInfoModal}
-        userInfo={selectedUser}
+        isModify={false}
       />
       <Card>
         <Scrollbar>
@@ -80,17 +73,10 @@ export const UserTable = ({
                 {searchUser.content &&
                   searchUser.content.map((user) => (
                     <>
-                      <TableRow
-                        key={`userRow : ${user.bibotUser.id}`}
-                        onClick={() => handleClickTableRow(user)}
-                      >
-                        <TableCell>{user.bibotUser.userRole}</TableCell>
-                        <TableCell>{user.department.name}</TableCell>
-                        <TableCell>{user.team.name}</TableCell>
-                        <TableCell>{user.bibotUser.duty}</TableCell>
-                        <TableCell>{`${user.bibotUser.lastName} ${user.bibotUser.firstName}`}</TableCell>
-                        <TableCell>5 / 9</TableCell>
-                      </TableRow>
+                      <UserTableRow
+                        user={user}
+                        departmentInfoList={departmentInfoList}
+                      />
                     </>
                   ))}
               </TableBody>

@@ -20,6 +20,13 @@ export interface BibotUserInfo {
   team: TeamDTO;
 }
 
+export interface AdminInfo {
+  userId: string;
+  firstName: string;
+  lastName: string;
+  userRole: string;
+}
+
 export interface SearchBibotUser {
   content: BibotUserInfo[];
   pageNo: number;
@@ -29,7 +36,7 @@ export interface SearchBibotUser {
 }
 
 export interface BibotUserDTO {
-  id: string;
+  id?: string;
   firstName: string;
   lastName: string;
   userRole: string;
@@ -96,11 +103,6 @@ export interface NewUserAccountReq {
   rankId: number;
   duty: string;
   email: string;
-}
-
-export interface DepartmentInfo {
-  id: number;
-  name: string;
 }
 
 export interface ResourceAccess {

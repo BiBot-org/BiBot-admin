@@ -3,6 +3,7 @@ import { TokenRes } from "@/types/auth/types";
 import {
   Account,
   CookiesOptions,
+  NextAuthOptions,
   Profile,
   Session,
   SessionUser,
@@ -11,18 +12,6 @@ import {
 import { JWT } from "next-auth/jwt";
 import NextAuth from "next-auth/next";
 import CredentialsProvider from "next-auth/providers/credentials";
-
-// export const signIn = async ({
-//   user,
-//   account,
-//   credentials,
-// }: {
-//   user: User;
-//   account: Account;
-//   credentials: any;
-// }) => {
-//   console.log(user);
-// };
 
 export const jwtCallback = async ({
   token,
@@ -87,7 +76,7 @@ export const session = ({
   return Promise.resolve(session);
 };
 
-export default NextAuth({
+export const authOptions: NextAuthOptions = {
   providers: [
     CredentialsProvider({
       id: "keycloak",
@@ -120,4 +109,6 @@ export default NextAuth({
     jwt: jwtCallback,
     session: session,
   },
-});
+};
+
+export default NextAuth(authOptions);

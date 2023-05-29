@@ -1,12 +1,18 @@
 import Config from "@/config/config.export";
 import { CustomAxios } from "@/constant/CustomAxios";
-import { VerifyEmailReq } from "@/types/user/User";
+import { BibotUserDTO, VerifyEmailReq } from "@/types/user/User";
 import {
+  CreateBibotUserRes,
   GetUserInfoRes,
   GetUserRes,
   SearchBibotUserRes,
+  UpdateUserRes,
 } from "../../types/user/ResponseType";
-import { SearchBibotUserReq } from "@/types/user/RequestType";
+import {
+  CreateOrUpdateUserReq,
+  SearchBibotUserReq,
+} from "@/types/user/RequestType";
+import { GetAllAdminUserRes } from "@/types/notice/ResponseType";
 const { baseUrl } = Config();
 
 export async function IsInit() {
@@ -54,6 +60,13 @@ export async function GetUserInfo(userId: string) {
   return res;
 }
 
+export async function GetAllAdminUser() {
+  const response: GetAllAdminUserRes = await CustomAxios.get(
+    baseUrl + "/user-service/api/admin/v1/user/admin/all"
+  ).then((res) => res.data);
+  return response;
+}
+
 export async function SearchUserInfo(req: SearchBibotUserReq) {
   const res: SearchBibotUserRes = await CustomAxios.get(
     baseUrl + "/user-service/api/admin/v1/user/search",
@@ -66,6 +79,22 @@ export async function SearchUserInfo(req: SearchBibotUserReq) {
         sort: req.sort,
       },
     }
+  ).then((res) => res.data);
+  return res;
+}
+
+export async function CreateUser(req: CreateOrUpdateUserReq) {
+  const res: CreateBibotUserRes = await CustomAxios.post(
+    baseUrl + "/user-service/api/admin/v1/user",
+    req
+  ).then((res) => res.data);
+  return res;
+}
+
+export async function UpdateUser(req: CreateOrUpdateUserReq) {
+  const res: UpdateUserRes = await CustomAxios.put(
+    baseUrl + "/user-service/api/admin/v1/user",
+    req
   ).then((res) => res.data);
   return res;
 }

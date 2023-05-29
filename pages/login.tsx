@@ -17,24 +17,6 @@ import { userAuthState } from "@/state/user/atom/userLoginState";
 import { getSession, signIn, useSession } from "next-auth/react";
 import { getServerSession } from "next-auth";
 
-// export async function getServerSideProps(result: any) {
-//   const session = await getServerSession();
-//   console.log(session);
-//   if (session) {
-//     result.res.writeHead(302, {
-//       Location: "/",
-//     });
-//     result.res.end();
-//     return {
-//       props: {},
-//     };
-//   } else {
-//     return {
-//       props: {},
-//     };
-//   }
-// }
-
 const Page = () => {
   const router = useRouter();
   const setUserInfo = useSetRecoilState(userAuthState);
@@ -53,17 +35,17 @@ const Page = () => {
       password: Yup.string().max(255).required("비밀번호를 입력 해 주세요."),
     }),
     onSubmit: async (values) => {
-      await signIn("keycloak", {
+      const result = await signIn("keycloak", {
         username: values.email,
         password: values.password,
-      })
-        .then(() => {
-          alert("환영합니다.");
-        })
-        .then(() => {
-          router.push("/");
-        })
-        .catch(() => alert("아이디와 비밀번호를 확인하세요"));
+        callbackUrl: "/",
+      });
+
+      if (result?.error) {
+        alert("아이디와 비밀번호를 확인하세요");
+      } else {
+        alert("환영합니다.");
+      }
     },
   });
 

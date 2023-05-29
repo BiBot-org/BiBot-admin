@@ -1,5 +1,6 @@
 import { GetNotice } from "@/service/notice/NoticeService";
-import { iNotice } from "@/types/notice/noticeType";
+import { GetUser } from "@/service/user/UserService";
+import { NoticeDTO, iNotice } from "@/types/notice/noticeType";
 import {
   Button,
   Card,
@@ -8,52 +9,63 @@ import {
   CardHeader,
   Dialog,
   Divider,
+  TextField,
   Typography,
 } from "@mui/material";
 import { styled } from "@mui/system";
+import { useSession } from "next-auth/react";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 
 interface iProp {
   onClose: Dispatch<SetStateAction<boolean>>;
   open: boolean;
-  noticeId: number;
+  notice: NoticeDTO;
 }
 
 const NoticeModalCard = styled(Card)({
-  minWidth: 320,
-  maxWidth: 500,
+  minWidth: 400,
+  maxWidth: 600,
 });
 
-export const NoticeModal = (props: iProp) => {
-  const { onClose, open, noticeId } = props;
-  const [notice, setNotice] = useState<iNotice>({} as iNotice);
+export const NoticeModal = ({ onClose, open, notice }: iProp) => {
+  const session = useSession();
+  const [author, setAuthor] = useState<string>("");
 
   useEffect(() => {
-    if (open === true) {
-      GetNotice(noticeId)
-        .then((res) => {
-          const result: iNotice = res;
-          setNotice(result);
-          console.log(notice);
-        })
-        .catch(() => {
-          alert("공지를 불러오는 데 에러가 발생했습니다.");
-        });
+    if (notice.createdBy) {
+      GetUser(notice.createdBy).then((res) => {
+        const userName = `${res.data.lastName} ${res.data.firstName}`;
+        setAuthor(userName);
+      });
     }
-  }, [open, noticeId]);
+  }, [notice]);
 
   return (
     <Dialog onClose={onClose} open={open}>
       <NoticeModalCard>
-        <CardHeader title={notice.title} subheader="작성자" />
+        <CardHeader title={notice.title} subheader={author} />
         <Divider />
         <CardContent>
-          <Typography>{notice.content}</Typography>
+          <TextField
+            fullWidth
+            aria-readonly
+            multiline
+            value={notice.content}
+            inputProps={{
+              style: {
+                height: "400px",
+              },
+            }}
+          />
         </CardContent>
-        <CardActions sx={{ justifyContent: "flex-end" }}>
-          <Button variant="contained">수정</Button>
-          <Button variant="contained">삭제</Button>
-        </CardActions>
+        {/* <CardActions sx={{ justifyContent: "flex-end" }}>
+          {session.data?.tokenInfo.id === notice.createdBy && (
+            <>
+              <Button variant="contained">수정</Button>
+              <Button variant="contained">삭제</Button>
+            </>
+          )}
+        </CardActions> */}
       </NoticeModalCard>
     </Dialog>
   );

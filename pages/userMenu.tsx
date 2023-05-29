@@ -26,5 +26,5 @@ const Page = () => (
 Page.getLayout = (page: ReactElement) => (
   <DashboardLayout>{page}</DashboardLayout>
 );
-
+Page.auth = true;
 export default Page;

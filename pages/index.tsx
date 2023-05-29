@@ -16,24 +16,11 @@ import { OverviewNotice } from "@/sections/overview/overview-notice";
 import { approvalOverviewMockData } from "@/data/approvals/approvalData";
 import { OverviewApproval } from "@/sections/overview/overview-approval";
 import { useRouter } from "next/router";
-import { useSession } from "next-auth/react";
+import { getSession, useSession } from "next-auth/react";
 import { IsInit } from "@/service/user/UserService";
-
-export async function getServerSideProps(result: any) {
-  const initState = await IsInit().then((res) => res.data);
-  if (initState === true) {
-    result.res.writeHead(302, {
-      Location: "/init/initSetup",
-    });
-    result.res.end();
-    return {
-      props: {},
-    };
-  }
-  return {
-    props: {},
-  };
-}
+import { getServerSession } from "next-auth";
+import { GetServerSidePropsContext } from "next";
+import { authOptions } from "./api/auth/[...nextauth]";
 
 const Page = () => {
   const [isGuideOpen, setIsGuideOpen] = useState<boolean>(false);
@@ -113,4 +100,5 @@ const Page = () => {
 Page.getLayout = (page: ReactElement) => (
   <DashboardLayout>{page}</DashboardLayout>
 );
+Page.auth = true;
 export default Page;

@@ -6,6 +6,7 @@ import { OverviewApproval } from "@/sections/overview/overview-approval";
 import { Typography } from "@mui/material";
 import { NoticeTable } from "@/sections/notice/notice-table";
 import { ReactElement } from "react";
+import { NoticePageContent } from "@/sections/notice/notice-page-content";
 const now = new Date();
 
 const Page = () => (
@@ -20,12 +21,7 @@ const Page = () => (
         py: 8,
       }}
     >
-      <Container maxWidth="xl">
-        <Stack spacing={3}>
-          <Typography variant="h4">공지 사항</Typography>
-          <NoticeTable />
-        </Stack>
-      </Container>
+      <NoticePageContent />
     </Box>
   </>
 );
