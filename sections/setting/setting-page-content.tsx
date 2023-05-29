@@ -8,7 +8,6 @@ import { GetAllCategoryListRes } from "@/types/category/ResponseType";
 
 export const SettingPageContent = () => {
   const [categoryList, setCategoryList] = useState<CategoryDTO[]>([]);
-  const [categoryId, setCategoryId] = useState<number>(-1);
   const [selectedCategory, setSelectedCategory] = useState<CategoryDTO>({
     id: 0,
     categoryName: "",

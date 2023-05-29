@@ -4,7 +4,8 @@ import {
   CreateNoticeReq,
   SearchNoticeReq,
   UpdateNoticeReq,
-} from "@/types/notice/RequesetType";
+} from "@/types/notice/RequestType";
+
 import {
   CreateNoticeRes,
   GetNoticeRes,

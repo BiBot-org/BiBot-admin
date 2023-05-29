@@ -1,6 +1,6 @@
 import Config from "@/config/config.export";
 import { CustomAxios } from "@/constant/CustomAxios";
-import { BaseRes } from "@/constant/response";
+import { BaseRes } from "@/types/common/ResponseType";
 
 const { baseUrl } = Config();
 

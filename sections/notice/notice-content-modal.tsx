@@ -45,6 +45,7 @@ export const NoticeContentModal = ({
   const [noticeContent, setNoticeContent] = useState<NoticeDTO>(
     {} as NoticeDTO
   );
+  const [readOnly, setReadOnly] = useState<boolean>(false);
 
   const session = useSession();
 
@@ -137,6 +138,7 @@ export const NoticeContentModal = ({
                 name="content"
                 label="내용"
                 value={noticeContent.content}
+                aria-readonly={true}
                 maxRows={14}
                 onChange={handleOnChange}
                 inputProps={{

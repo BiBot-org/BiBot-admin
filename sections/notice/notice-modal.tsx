@@ -58,14 +58,14 @@ export const NoticeModal = ({ onClose, open, notice }: iProp) => {
             }}
           />
         </CardContent>
-        <CardActions sx={{ justifyContent: "flex-end" }}>
+        {/* <CardActions sx={{ justifyContent: "flex-end" }}>
           {session.data?.tokenInfo.id === notice.createdBy && (
             <>
               <Button variant="contained">수정</Button>
               <Button variant="contained">삭제</Button>
             </>
           )}
-        </CardActions>
+        </CardActions> */}
       </NoticeModalCard>
     </Dialog>
   );

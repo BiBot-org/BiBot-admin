@@ -4,6 +4,7 @@ import createEmotionServer from "@emotion/server/create-instance";
 import { createEmotionCache } from "@/utils/create-emotion-cache";
 import { EmotionCache } from "@emotion/cache";
 import { ServerStyleSheets } from "@mui/styles";
+import { CacheProvider } from "@emotion/react";
 
 const Favicon = () => (
   <>
@@ -56,7 +57,12 @@ MyDocument.getInitialProps = async (ctx) => {
   const { extractCriticalToChunks } = createEmotionServer(cache);
   ctx.renderPage = () =>
     originalRenderPage({
-      enhanceApp: (App) => (props) => <App emotionCache={cache} {...props} />,
+      enhanceApp: (App) => (props) =>
+        (
+          <CacheProvider value={cache}>
+            <App {...props} />
+          </CacheProvider>
+        ),
     });
 
   const initialProps = await Document.getInitialProps(ctx);

@@ -7,12 +7,18 @@ import {
   CardContent,
   Divider,
 } from "@mui/material";
+import { Dispatch, SetStateAction } from "react";
 
 interface Prop {
   adminUserList: AdminInfo[];
+  setSelectedAdmin: Dispatch<SetStateAction<AdminInfo>>;
 }
 
-export const SetupManager = ({ adminUserList }: Prop) => {
+export const SetupManager = ({ adminUserList, setSelectedAdmin }: Prop) => {
+  const onClickButton = (adminInfo: AdminInfo) => {
+    setSelectedAdmin(adminInfo);
+  };
+
   return (
     <Card>
       <CardHeader
@@ -28,6 +34,7 @@ export const SetupManager = ({ adminUserList }: Prop) => {
                 fullWidth
                 key={`admin_button : ${admin.userId}`}
                 variant="text"
+                onClick={() => onClickButton(admin)}
               >
                 {admin.lastName} {admin.firstName}
               </Button>

@@ -1,3 +1,4 @@
+import { AdminInfo } from "@/types/user/User";
 import {
   Box,
   Button,
@@ -14,7 +15,11 @@ import {
 } from "@mui/material";
 import { useState } from "react";
 
-export const SetupManagerDetails = () => {
+interface Props {
+  adminInfo: AdminInfo;
+}
+
+export const SetupManagerDetails = ({ adminInfo }: Props) => {
   const [authorityList, setAuthorityList] = useState<string[]>([]);
 
   return (

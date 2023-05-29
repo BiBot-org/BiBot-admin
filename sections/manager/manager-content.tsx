@@ -7,6 +7,9 @@ import { AdminInfo } from "@/types/user/User";
 
 export const ManagerContent = () => {
   const [adminUserList, setAdminUserList] = useState<AdminInfo[]>([]);
+  const [selectedAdmin, setSelectedAdmin] = useState<AdminInfo>(
+    {} as AdminInfo
+  );
 
   useEffect(() => {
     GetAllAdminUser().then((res) => setAdminUserList(res.data));
@@ -21,10 +24,13 @@ export const ManagerContent = () => {
         <div>
           <Grid container spacing={2}>
             <Grid xs={3} mr={2}>
-              <SetupManager adminUserList={adminUserList} />
+              <SetupManager
+                adminUserList={adminUserList}
+                setSelectedAdmin={setSelectedAdmin}
+              />
             </Grid>
             <Grid xs={8}>
-              <SetupManagerDetails />
+              <SetupManagerDetails adminInfo={selectedAdmin} />
             </Grid>
           </Grid>
         </div>

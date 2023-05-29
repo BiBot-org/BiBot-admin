@@ -22,8 +22,8 @@ import { NoticeModal } from "./notice-modal";
 import { SetStateAction, useState } from "react";
 import { NoticeContentModal } from "./notice-content-modal";
 import { iSearchNotice } from "@/types/notice/noticeType";
-import { SearchNoticeReq } from "@/types/notice/RequesetType";
 import { NoticeTableRow } from "./notice-table-row";
+import { SearchNoticeReq } from "@/types/notice/RequestType";
 
 interface Props {
   searchNoticeResult: iSearchNotice;
