@@ -5,6 +5,7 @@ import { Typography } from "@mui/material";
 import { ReactElement } from "react";
 import { SetupManager } from "@/sections/setting/setting-managers";
 import { SetupManagerDetails } from "@/sections/setting/setting-manager-detail";
+import { ManagerContent } from "@/sections/manager/manager-content";
 const now = new Date();
 
 const Page = () => (
@@ -19,23 +20,7 @@ const Page = () => (
         py: 8,
       }}
     >
-      <Container maxWidth="xl">
-        <Stack spacing={3}>
-          <div>
-            <Typography variant="h4">관리자 목록</Typography>
-          </div>
-          <div>
-            <Grid container spacing={3}>
-              <Grid xs={12} md={6} lg={4}>
-                <SetupManager />
-              </Grid>
-              <Grid xs={12} md={6} lg={8}>
-                <SetupManagerDetails />
-              </Grid>
-            </Grid>
-          </div>
-        </Stack>
-      </Container>
+      <ManagerContent />
     </Box>
   </>
 );
@@ -43,5 +28,5 @@ const Page = () => (
 Page.getLayout = (page: ReactElement) => (
   <DashboardLayout>{page}</DashboardLayout>
 );
-
+Page.auth = true;
 export default Page;

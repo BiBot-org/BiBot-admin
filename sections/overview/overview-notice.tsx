@@ -16,23 +16,24 @@ import {
   TableRow,
 } from "@mui/material";
 import { Scrollbar } from "@/components/scrollbar";
-import { IOverviewNotice, NoticeInfo } from "@/types/notice/noticeType";
+import { IOverviewNotice, NoticeDTO } from "@/types/notice/noticeType";
 import { GetNoticeMain } from "@/service/notice/NoticeService";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { NoticeModal } from "../notice/notice-modal";
+import { OverviewNoticeRow } from "./overview-notice-row";
 
 export const OverviewNotice = (props: IOverviewNotice) => {
   const { sx } = props;
   const [modalOpen, setModalOpen] = useState<boolean>(false);
   const [noticeId, setNoticeId] = useState<number>(0);
-  const [noticeListMain, setNoticeListMain] = useState<NoticeInfo[]>([]);
+  const [noticeListMain, setNoticeListMain] = useState<NoticeDTO[]>([]);
   const router = useRouter();
 
   useEffect(() => {
     GetNoticeMain()
       .then((res) => {
-        const response: NoticeInfo[] = res.data;
+        const response: NoticeDTO[] = res.data;
         setNoticeListMain([...response]);
       })
       .catch((ex) => console.log(ex));
@@ -40,11 +41,6 @@ export const OverviewNotice = (props: IOverviewNotice) => {
 
   return (
     <>
-      <NoticeModal
-        onClose={() => setModalOpen(false)}
-        open={modalOpen}
-        noticeId={noticeId}
-      />
       <Card sx={sx}>
         <CardHeader title="공지사항" />
         <Scrollbar sx={{ flexGrow: 1 }}>
@@ -61,17 +57,10 @@ export const OverviewNotice = (props: IOverviewNotice) => {
               <TableBody>
                 {noticeListMain.map((notice) => {
                   return (
-                    <TableRow
-                      hover
-                      key={"notice : " + notice.id}
-                      onClick={() => {
-                        setNoticeId(notice.id);
-                        setModalOpen(true);
-                      }}
-                    >
-                      <TableCell>{notice.title}</TableCell>
-                      <TableCell>{notice.regTime}</TableCell>
-                    </TableRow>
+                    <OverviewNoticeRow
+                      key={"notice_row : " + notice.id}
+                      notice={notice}
+                    />
                   );
                 })}
               </TableBody>

@@ -12,12 +12,17 @@ import {
 } from "@mui/material";
 import { CreateOrChangeUserModal } from "./account-create-modal";
 import { BibotUserInfo } from "@/types/user/User";
+import { DepartmentInfo } from "@/types/department/types";
 
 interface Prop {
   userInfo: BibotUserInfo;
+  departmentInfoList: DepartmentInfo[];
 }
 
-export const AccountProfileDetails = ({ userInfo }: Prop) => {
+export const AccountProfileDetails = ({
+  userInfo,
+  departmentInfoList,
+}: Prop) => {
   const [openChangeUserModal, setOpenChangeUserModal] =
     useState<boolean>(false);
 
@@ -30,7 +35,9 @@ export const AccountProfileDetails = ({ userInfo }: Prop) => {
       <CreateOrChangeUserModal
         open={openChangeUserModal}
         onClose={() => setOpenChangeUserModal(false)}
-        userId="1234"
+        userInfo={userInfo}
+        departmentInfoList={departmentInfoList}
+        isModify={true}
       />
       <Card>
         <CardHeader subheader="사원 상세 정보" title="사원 정보" />
@@ -42,7 +49,7 @@ export const AccountProfileDetails = ({ userInfo }: Prop) => {
                   fullWidth
                   label="부서 / 팀"
                   name="division / team"
-                  required
+                  aria-readonly
                   value={`${userInfo.department.name} / ${userInfo.team.name}`}
                 />
               </Grid>
@@ -52,7 +59,7 @@ export const AccountProfileDetails = ({ userInfo }: Prop) => {
                   fullWidth
                   label="직책"
                   name="country"
-                  required
+                  aria-readonly
                   value={userInfo.bibotUser.duty}
                 />
               </Grid>
@@ -61,7 +68,6 @@ export const AccountProfileDetails = ({ userInfo }: Prop) => {
                   fullWidth
                   label="이메일"
                   name="state"
-                  required
                   aria-readonly
                   value={userInfo.bibotUser.email}
                 ></TextField>

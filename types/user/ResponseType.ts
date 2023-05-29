@@ -16,3 +16,13 @@ export interface GetUserInfoRes extends BaseRes {
 export interface SearchBibotUserRes extends BaseRes {
   data: SearchBibotUser;
 }
+
+export interface CreateBibotUserRes extends BaseRes {
+  data: {
+    userId: string;
+  };
+}
+
+export interface UpdateUserRes extends BaseRes {
+  data: string;
+}

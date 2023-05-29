@@ -1,24 +1,20 @@
 import { getToken } from "next-auth/jwt";
+import { getSession } from "next-auth/react";
 import { NextRequest, NextResponse } from "next/server";
 
 export { default } from "next-auth/middleware";
-export const config = { matcher: ["/"] };
 
-export async function middleware(request: NextRequest) {
-  const token = await getToken({
-    req: request,
-    secret: process?.env?.NEXTAUTH_SECRET,
-    cookieName: "next-auth.session-token",
-  });
+export const config = { matcher: ["/login"] };
 
-  const { pathname } = request.nextUrl;
+export async function middleware(req: NextRequest) {
+  const session = await getToken({ req });
+  const { pathname } = req.nextUrl;
+  console.log("WTF");
+  console.log(session);
 
-  if (
-    token?.token &&
-    Math.floor(Date.now() / 1000) < token?.refreshExpiresIn!!
-  ) {
-    return NextResponse.redirect("/login");
+  if (pathname.startsWith("/login")) {
+    if (session) {
+      return NextResponse.redirect(new URL("/", req.url));
+    }
   }
-
-  return NextResponse.next();
 }

@@ -1,6 +1,10 @@
 import { BaseRes } from "@/types/common/ResponseType";
-import { DepartmentDTO } from "@/types/department/types";
+import { DepartmentDTO, DepartmentInfo } from "@/types/department/types";
+
+export interface GetAllDepartmentsRes extends BaseRes {
+  data: DepartmentDTO[];
+}
 
 export interface GetAllDepartmentInfoRes extends BaseRes {
-  data: DepartmentDTO[];
+  data: DepartmentInfo[];
 }

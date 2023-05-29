@@ -1,10 +1,10 @@
 import { GetAllCategoryList } from "@/service/category/CategoryService";
-import { GetAllCategoryListRes } from "@/service/category/ResponseType";
-import { CategoryDTO } from "@/types/category/ResponseTypes";
 import { Container, Grid, Stack, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import { SetupCategories } from "./setting-categories";
 import { SettingCategoriesDetails } from "./setting-categories-detail";
+import { CategoryDTO } from "@/types/category/ResponseTypes";
+import { GetAllCategoryListRes } from "@/types/category/ResponseType";
 
 export const SettingPageContent = () => {
   const [categoryList, setCategoryList] = useState<CategoryDTO[]>([]);

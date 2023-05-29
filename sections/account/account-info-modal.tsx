@@ -5,14 +5,21 @@ import { AccountProfile } from "./account-profile";
 import { AccountProfileDetails } from "./account-profile-details";
 import { ExpenseUserHistory } from "../approval/approval-user-list";
 import { BibotUserInfo } from "@/types/user/User";
+import { DepartmentInfo } from "@/types/department/types";
 
 interface iProp {
   onClose: Dispatch<SetStateAction<boolean>>;
   open: boolean;
   userInfo: BibotUserInfo;
+  departmentInfoList: DepartmentInfo[];
 }
 
-export const UserInfoModal = ({ onClose, open, userInfo }: iProp) => {
+export const UserInfoModal = ({
+  onClose,
+  open,
+  userInfo,
+  departmentInfoList,
+}: iProp) => {
   return (
     <Dialog onClose={onClose} open={open} maxWidth="lg">
       <DialogTitle>사용자 정보</DialogTitle>
@@ -25,7 +32,10 @@ export const UserInfoModal = ({ onClose, open, userInfo }: iProp) => {
                   <AccountProfile userInfo={userInfo} />
                 </Grid>
                 <Grid xs={12} md={6} lg={8}>
-                  <AccountProfileDetails userInfo={userInfo} />
+                  <AccountProfileDetails
+                    userInfo={userInfo}
+                    departmentInfoList={departmentInfoList}
+                  />
                 </Grid>
               </Grid>
             </div>

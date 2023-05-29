@@ -1,4 +1,4 @@
-import { useCallback } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import PropTypes from "prop-types";
 import {
@@ -9,12 +9,22 @@ import {
   Popover,
   Typography,
 } from "@mui/material";
-import { signOut } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
 import { HandleLogoutSuccess } from "@/service/auth/Handler";
+import { GetUserInfo } from "@/service/user/UserService";
+import { BibotUserDTO, BibotUserInfo } from "@/types/user/User";
 
 export const AccountPopover = (props: any) => {
   const { anchorEl, onClose, open } = props;
+  const [userInfo, setUserInfo] = useState<BibotUserInfo>({} as BibotUserInfo);
   const router = useRouter();
+  const session = useSession();
+  // useEffect(() => {
+  //   if (session && session.data?.tokenInfo) {
+  //     const userId = session.data.tokenInfo.id;
+  //     GetUserInfo(userId).then((res) => setUserInfo({ ...res.data }));
+  //   }
+  // }, []);
 
   const handleSignOut = useCallback(() => {
     signOut()
@@ -42,9 +52,11 @@ export const AccountPopover = (props: any) => {
           px: 2,
         }}
       >
-        <Typography variant="overline">swj9707</Typography>
+        <Typography variant="overline">
+          {/* {userInfo.bibotUser.lastName} {userInfo.bibotUser.firstName} */}
+        </Typography>
         <Typography color="text.secondary" variant="body2">
-          스파로스개발팀 / 매니저
+          {/* {userInfo.department.name} / {userInfo.team.name} */}
         </Typography>
       </Box>
       <Box
