@@ -13,18 +13,20 @@ import { signOut, useSession } from "next-auth/react";
 import { HandleLogoutSuccess } from "@/service/auth/Handler";
 import { GetUserInfo } from "@/service/user/UserService";
 import { BibotUserDTO, BibotUserInfo } from "@/types/user/User";
+import { useRecoilState } from "recoil";
+import { userInfoState } from "@/state/user/atom/userInfoState";
 
 export const AccountPopover = (props: any) => {
   const { anchorEl, onClose, open } = props;
-  const [userInfo, setUserInfo] = useState<BibotUserInfo>({} as BibotUserInfo);
+  const [userInfo, setUserInfo] = useRecoilState<BibotUserInfo>(userInfoState);
   const router = useRouter();
   const session = useSession();
-  // useEffect(() => {
-  //   if (session && session.data?.tokenInfo) {
-  //     const userId = session.data.tokenInfo.id;
-  //     GetUserInfo(userId).then((res) => setUserInfo({ ...res.data }));
-  //   }
-  // }, []);
+  useEffect(() => {
+    if (session && session.data?.tokenInfo) {
+      const userId = session.data.tokenInfo.id;
+      GetUserInfo(userId).then((res) => setUserInfo({ ...res.data }));
+    }
+  }, []);
 
   const handleSignOut = useCallback(() => {
     signOut()
@@ -53,10 +55,10 @@ export const AccountPopover = (props: any) => {
         }}
       >
         <Typography variant="overline">
-          {/* {userInfo.bibotUser.lastName} {userInfo.bibotUser.firstName} */}
+          {userInfo.bibotUser.lastName} {userInfo.bibotUser.firstName}
         </Typography>
         <Typography color="text.secondary" variant="body2">
-          {/* {userInfo.department.name} / {userInfo.team.name} */}
+          {userInfo.department.name} / {userInfo.team.name}
         </Typography>
       </Box>
       <Box

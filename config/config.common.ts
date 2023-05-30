@@ -2,16 +2,28 @@ export declare namespace ICommonConfig {
   export type Mode = "local" | "dev";
 
   export interface Params {
-    baseUrl: string;
+    authServiceUrl: string;
+    userServiceUrl: string;
+    cardServiceUrl: string;
+    expenseServiceUrl: string;
     mode: Mode;
   }
 }
 
 export default function getConfigs(params: ICommonConfig.Params) {
-  const { baseUrl, mode } = params;
+  const {
+    authServiceUrl,
+    userServiceUrl,
+    cardServiceUrl,
+    expenseServiceUrl,
+    mode,
+  } = params;
 
   return {
-    baseUrl,
+    authServiceUrl,
+    userServiceUrl,
+    cardServiceUrl,
+    expenseServiceUrl,
     mode,
 
     api: {},

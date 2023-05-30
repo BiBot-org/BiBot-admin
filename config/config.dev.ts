@@ -1,10 +1,16 @@
 import getConfigs from "./config.common";
 
-const baseUrl = "배포 하게되면 Gateway URL";
+const authServiceUrl = "";
+const userServiceUrl = "배포 하게되면 Gateway URL";
+const cardServiceUrl = "";
+const expenseServiceUrl = "";
 const mode = "dev";
 
 const configDev = getConfigs({
-  baseUrl,
+  authServiceUrl,
+  userServiceUrl,
+  cardServiceUrl,
+  expenseServiceUrl,
   mode,
 });
 
