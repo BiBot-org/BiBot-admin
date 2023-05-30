@@ -27,18 +27,22 @@ import { SearchNoticeReq } from "@/types/notice/RequestType";
 
 interface Props {
   searchNoticeResult: iSearchNotice;
-  searchParam: SearchNoticeReq;
+  callbackSearchParam: () => Promise<void>;
 }
 
-export const NoticeTable = ({ searchNoticeResult, searchParam }: Props) => {
+export const NoticeTable = ({
+  searchNoticeResult,
+  callbackSearchParam,
+}: Props) => {
   const [modalOpen, setModalOpen] = useState<boolean>(false);
-  const [noticeId, setNoticeId] = useState<number>(0);
+
   return (
     <>
       <NoticeContentModal
         onClose={() => setModalOpen(false)}
         open={modalOpen}
         isModify={false}
+        callbackSearchParam={callbackSearchParam}
       />
 
       <Card>
@@ -47,10 +51,11 @@ export const NoticeTable = ({ searchNoticeResult, searchParam }: Props) => {
             <Table>
               <TableHead>
                 <TableRow>
-                  <TableCell style={{ width: "30%" }}>No</TableCell>
-                  <TableCell style={{ width: "40%" }}>공지사항</TableCell>
-                  <TableCell style={{ width: "20%" }}>작성자</TableCell>
-                  <TableCell style={{ width: "10%" }}>등급</TableCell>
+                  <TableCell style={{ width: "10%" }}>No</TableCell>
+                  <TableCell style={{ width: "60%" }}>공지사항</TableCell>
+                  <TableCell style={{ width: "10%" }}>작성자</TableCell>
+                  <TableCell style={{ width: "10%" }}>종류</TableCell>
+                  <TableCell style={{ width: "10%" }}>수정</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -60,6 +65,7 @@ export const NoticeTable = ({ searchNoticeResult, searchParam }: Props) => {
                       <NoticeTableRow
                         key={`notice_table_row ${notice.id}`}
                         notice={notice}
+                        callbackSearchParam={callbackSearchParam}
                       />
                     </>
                   ))}

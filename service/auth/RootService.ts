@@ -1,3 +1,4 @@
+import Config from "@/config/config.export";
 import { KeycloakTokenRes } from "@/types/auth/types";
 import {
   InitSetupReq,
@@ -6,16 +7,19 @@ import {
 } from "@/types/user/User";
 import axios from "axios";
 
+const { authServiceUrl, authServiceSecret, userServiceUrl, expenseServiceUrl } =
+  Config();
+
 export async function CheckRootAccount(username: string, password: string) {
   return await axios
     .post(
-      "http://localhost:8080/realms/bibot-org/protocol/openid-connect/token",
+      `${authServiceUrl}/realms/bibot-org/protocol/openid-connect/token`,
       {
         grant_type: "password",
         username: username,
         password: password,
         client_id: "bibot",
-        client_secret: "UzA54JarMBtp7myDE9d6HoyVTlaDNImF",
+        client_secret: authServiceSecret,
       },
       {
         headers: {
@@ -26,10 +30,10 @@ export async function CheckRootAccount(username: string, password: string) {
     .then(async (res) => {
       const tokenReponse: KeycloakTokenRes = res.data;
       return await axios.post(
-        "http://localhost:8080/realms/bibot-org/protocol/openid-connect/logout",
+        `${authServiceUrl}/realms/bibot-org/protocol/openid-connect/logout`,
         {
           client_id: "bibot",
-          client_secret: "UzA54JarMBtp7myDE9d6HoyVTlaDNImF",
+          client_secret: authServiceSecret,
           refresh_token: tokenReponse.refresh_token,
         },
         {
@@ -46,13 +50,13 @@ export async function CheckRootAccount(username: string, password: string) {
 export async function InitalizeService(initSetupReq: InitSetupReq) {
   return await axios
     .post(
-      "http://localhost:8080/realms/bibot-org/protocol/openid-connect/token",
+      `${authServiceUrl}/realms/bibot-org/protocol/openid-connect/token`,
       {
         grant_type: "password",
         username: initSetupReq.rootEmail,
         password: initSetupReq.rootPassword,
         client_id: "bibot",
-        client_secret: "UzA54JarMBtp7myDE9d6HoyVTlaDNImF",
+        client_secret: authServiceSecret,
       },
       {
         headers: {
@@ -91,7 +95,7 @@ async function SetInitCategoryInfo(
 ) {
   return await axios
     .post(
-      "http://localhost:8000/expense-service/api/admin/v1/category/init",
+      `${expenseServiceUrl}/api/admin/v1/category/init`,
       {
         categoryList: categoryList,
       },
@@ -116,7 +120,7 @@ async function SetRootUser(
 ) {
   return await axios
     .post(
-      "http://localhost:8000/user-service/api/admin/v1/init",
+      `${userServiceUrl}/api/admin/v1/init`,
       {
         firstName: firstName,
         lastName: lastName,

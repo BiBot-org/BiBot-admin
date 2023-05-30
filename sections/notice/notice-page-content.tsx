@@ -15,6 +15,7 @@ export const NoticePageContent = () => {
   const [searchNoticeRes, setSearchNoticeRes] = useState<iSearchNotice>(
     {} as iSearchNotice
   );
+  const [modified, setModified] = useState<boolean>(false);
 
   const callbackSearchParam = useCallback(async () => {
     await SearchNotice(searchParam).then((res) =>
@@ -33,11 +34,10 @@ export const NoticePageContent = () => {
         <NoticeSearch
           searchParam={searchParam}
           setSearchParam={setSearchParam}
-          callbackSearchParam={callbackSearchParam}
         />
         <NoticeTable
           searchNoticeResult={searchNoticeRes}
-          searchParam={searchParam}
+          callbackSearchParam={callbackSearchParam}
         />
       </Stack>
     </Container>

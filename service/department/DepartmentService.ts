@@ -4,18 +4,18 @@ import {
   GetAllDepartmentInfoRes,
   GetAllDepartmentsRes,
 } from "../../types/department/ResponseType";
-const { baseUrl } = Config();
+const { userServiceUrl } = Config();
 
 export async function GetAllDepartments() {
   const response: GetAllDepartmentsRes = await CustomAxios.get(
-    baseUrl + "/user-service/api/admin/v1/department/all"
+    `${userServiceUrl}/api/admin/v1/department/all`
   ).then((res) => res.data);
   return response;
 }
 
 export async function GetAllDepartmentsInfo() {
   const response: GetAllDepartmentInfoRes = await CustomAxios.get(
-    baseUrl + "/user-service/api/admin/v1/department/info/all"
+    `${userServiceUrl}/api/admin/v1/department/info/all`
   ).then((res) => res.data);
   return response;
 }

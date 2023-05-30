@@ -19,20 +19,12 @@ import {
 interface Prop {
   searchParam: SearchNoticeReq;
   setSearchParam: Dispatch<SetStateAction<SearchNoticeReq>>;
-  callbackSearchParam: () => void;
 }
 
-export const NoticeSearch = ({
-  searchParam,
-  setSearchParam,
-  callbackSearchParam,
-}: Prop) => {
+export const NoticeSearch = ({ searchParam, setSearchParam }: Prop) => {
   const [selectedType, setSelectedType] = useState<number>(0);
   const [title, setTitle] = useState<string>("");
-  // const handleChangeMenuItem = (e: SelectChangeEvent) => {
-  //   const nextValue = e.target.value;
-  //   setSearchParam({...searchParam, })
-  // };
+
   const handleOnChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     if (name === "title") {

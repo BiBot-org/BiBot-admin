@@ -3,6 +3,7 @@ export declare namespace ICommonConfig {
 
   export interface Params {
     authServiceUrl: string;
+    authServiceSecret: string;
     userServiceUrl: string;
     cardServiceUrl: string;
     expenseServiceUrl: string;
@@ -13,6 +14,7 @@ export declare namespace ICommonConfig {
 export default function getConfigs(params: ICommonConfig.Params) {
   const {
     authServiceUrl,
+    authServiceSecret,
     userServiceUrl,
     cardServiceUrl,
     expenseServiceUrl,
@@ -21,6 +23,7 @@ export default function getConfigs(params: ICommonConfig.Params) {
 
   return {
     authServiceUrl,
+    authServiceSecret,
     userServiceUrl,
     cardServiceUrl,
     expenseServiceUrl,

@@ -13,17 +13,17 @@ import {
 } from "@/types/notice/ResponseType";
 import { iNotice } from "@/types/notice/noticeType";
 
-const { baseUrl } = Config();
+const { userServiceUrl } = Config();
 
 export async function GetNoticeMain() {
-  return await CustomAxios.get(
-    baseUrl + "/user-service/api/v1/notice/main"
-  ).then((res) => res.data);
+  return await CustomAxios.get(`${userServiceUrl}/api/v1/notice/main`).then(
+    (res) => res.data
+  );
 }
 
 export async function GetNotice(noticeId: number) {
   const response: GetNoticeRes = await CustomAxios.get(
-    baseUrl + "/user-service/api/v1/notice",
+    `${userServiceUrl}/api/v1/notice`,
     {
       params: {
         id: noticeId,
@@ -35,7 +35,7 @@ export async function GetNotice(noticeId: number) {
 
 export async function SearchNotice(req: SearchNoticeReq) {
   const response: SearchNoticeRes = await CustomAxios.get(
-    baseUrl + "/user-service/api/v1/notice/search",
+    `${userServiceUrl}/api/v1/notice/search`,
     {
       params: {
         title: req.title,
@@ -49,7 +49,7 @@ export async function SearchNotice(req: SearchNoticeReq) {
 
 export async function CreateNotice(req: CreateNoticeReq) {
   const response: CreateNoticeRes = await CustomAxios.post(
-    baseUrl + "/user-service/api/v1/admin/notice",
+    `${userServiceUrl}/api/v1/admin/notice`,
     req
   ).then((res) => res.data);
   return response;
@@ -57,7 +57,7 @@ export async function CreateNotice(req: CreateNoticeReq) {
 
 export async function UpdateNotice(req: UpdateNoticeReq) {
   const response = await CustomAxios.put(
-    baseUrl + "/user-service/api/v1/admin/notice",
+    `${userServiceUrl}/api/v1/admin/notice`,
     req
   ).then((res) => res.data);
   return response;
@@ -65,7 +65,7 @@ export async function UpdateNotice(req: UpdateNoticeReq) {
 
 export async function DeleteNotice(id: number) {
   const response = await CustomAxios.delete(
-    baseUrl + "/user-service/api/v1/admin/notice",
+    `${userServiceUrl}/api/v1/admin/notice`,
     {
       params: {
         id: id,
