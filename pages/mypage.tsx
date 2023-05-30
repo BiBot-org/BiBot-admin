@@ -14,12 +14,13 @@ import { ReactElement, useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
 import { GetUserInfo } from "@/service/user/UserService";
 import { BibotUserInfo } from "@/types/user/User";
+import { useRecoilState } from "recoil";
+import { userInfoState } from "@/state/user/atom/userInfoState";
 
 const Page = () => {
   const session = useSession();
-  const [myUserInfo, setMyUserInfo] = useState<BibotUserInfo>(
-    {} as BibotUserInfo
-  );
+  const [myUserInfo, setMyUserInfo] =
+    useRecoilState<BibotUserInfo>(userInfoState);
   console.log(session);
   useEffect(() => {
     if (session) {
@@ -51,7 +52,7 @@ const Page = () => {
                   <AccountMyProfile userInfo={myUserInfo} />
                 </Grid>
                 <Grid xs={12} md={6} lg={8}>
-                  <AccountMyProfileDetails />
+                  <AccountMyProfileDetails userInfo={myUserInfo} />
                 </Grid>
               </Grid>
             </div>

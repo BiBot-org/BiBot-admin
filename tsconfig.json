@@ -29,7 +29,7 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts",
-    "layouts/dashboard/layout.tsㅌ"
+    "layouts/dashboard/layout.ts"
   ],
   "exclude": ["node_modules"]
 }

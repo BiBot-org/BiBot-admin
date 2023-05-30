@@ -2,17 +2,20 @@ import { getSession } from "next-auth/react";
 import axios from "axios";
 import { KeycloakTokenRes, KeycloakUserInfoRes } from "@/types/auth/types";
 import { CustomAxios } from "@/constant/CustomAxios";
+import Config from "@/config/config.export";
+
+const { authServiceUrl, authServiceSecret } = Config();
 
 export async function keycloakSignIn(username: string, password: string) {
   return await axios
     .post(
-      "http://localhost:8080/realms/bibot-org/protocol/openid-connect/token",
+      `${authServiceUrl}/realms/bibot-org/protocol/openid-connect/token`,
       {
         grant_type: "password",
         username: username,
         password: password,
         client_id: "bibot",
-        client_secret: "UzA54JarMBtp7myDE9d6HoyVTlaDNImF",
+        client_secret: authServiceSecret,
       },
       {
         headers: {
@@ -24,7 +27,7 @@ export async function keycloakSignIn(username: string, password: string) {
       const tokenResponse: KeycloakTokenRes = res.data;
       return await axios
         .get(
-          "http://localhost:8080/realms/bibot-org/protocol/openid-connect/userinfo",
+          `${authServiceUrl}/realms/bibot-org/protocol/openid-connect/userinfo`,
           {
             headers: {
               "Content-Type": "application/x-www-form-urlencoded",
@@ -55,12 +58,12 @@ export async function keycloakSignIn(username: string, password: string) {
 export async function reissueToken(refreshToken: string) {
   return await axios
     .post(
-      "http://localhost:8080/realms/bibot-org/protocol/openid-connect/token",
+      `${authServiceUrl}/realms/bibot-org/protocol/openid-connect/token`,
       {
         grant_type: "refresh_token",
         refresh_token: refreshToken,
         client_id: "bibot",
-        client_secret: "UzA54JarMBtp7myDE9d6HoyVTlaDNImF",
+        client_secret: authServiceSecret,
       },
       {
         headers: {
@@ -84,10 +87,10 @@ export async function LogoutSession() {
   const session = await getSession();
   if (session) {
     return await CustomAxios.post(
-      "http://localhost:8080/realms/bibot-org/protocol/openid-connect/logout",
+      `${authServiceUrl}/realms/bibot-org/protocol/openid-connect/logout`,
       {
         client_id: "bibot",
-        client_secret: "UzA54JarMBtp7myDE9d6HoyVTlaDNImF",
+        client_secret: authServiceSecret,
         refresh_token: session.tokenInfo.refreshToken,
       },
       {
@@ -113,7 +116,7 @@ export function removeTokenInfo() {
 
 export async function isAuthenticated() {
   return await CustomAxios.get(
-    "http://localhost:8080/realms/bibot-org/protocol/openid-connect/userinfo"
+    `${authServiceUrl}/realms/bibot-org/protocol/openid-connect/userinfo`
   )
     .then(() => Promise.resolve())
     .catch(() => Promise.reject());

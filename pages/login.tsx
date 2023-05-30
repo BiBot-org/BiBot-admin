@@ -18,9 +18,6 @@ import { getSession, signIn, useSession } from "next-auth/react";
 import { getServerSession } from "next-auth";
 
 const Page = () => {
-  const router = useRouter();
-  const setUserInfo = useSetRecoilState(userAuthState);
-
   const formik = useFormik({
     initialValues: {
       email: "",

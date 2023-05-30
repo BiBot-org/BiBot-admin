@@ -1,5 +1,5 @@
 import NextAuth from "next-auth/next";
-import { TokenRes, UserAuthInfo, UserInfo } from "./user/User";
+import { TokenRes } from "./auth/types";
 import { ISODateString } from "next-auth";
 
 declare module "next-auth" {

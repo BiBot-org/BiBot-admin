@@ -13,7 +13,6 @@ import {
   Typography,
 } from "@mui/material";
 import { styled } from "@mui/system";
-import { useSession } from "next-auth/react";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 
 interface iProp {
@@ -28,7 +27,6 @@ const NoticeModalCard = styled(Card)({
 });
 
 export const NoticeModal = ({ onClose, open, notice }: iProp) => {
-  const session = useSession();
   const [author, setAuthor] = useState<string>("");
 
   useEffect(() => {
@@ -58,14 +56,6 @@ export const NoticeModal = ({ onClose, open, notice }: iProp) => {
             }}
           />
         </CardContent>
-        {/* <CardActions sx={{ justifyContent: "flex-end" }}>
-          {session.data?.tokenInfo.id === notice.createdBy && (
-            <>
-              <Button variant="contained">수정</Button>
-              <Button variant="contained">삭제</Button>
-            </>
-          )}
-        </CardActions> */}
       </NoticeModalCard>
     </Dialog>
   );

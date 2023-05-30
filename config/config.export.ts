@@ -6,7 +6,7 @@ const Config = () => {
     case "local":
       return configLocal;
     case "dev":
-      return configDev;
+      return configLocal;
     default:
       return configLocal;
   }

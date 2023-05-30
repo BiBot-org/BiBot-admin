@@ -1,4 +1,4 @@
-import { CreateNotice } from "@/service/notice/NoticeService";
+import { CreateNotice, UpdateNotice } from "@/service/notice/NoticeService";
 import { NoticeDTO } from "@/types/notice/noticeType";
 import styled from "@emotion/styled";
 import {
@@ -29,6 +29,7 @@ interface Props {
   open: boolean;
   isModify: boolean;
   notice?: NoticeDTO;
+  callbackSearchParam: () => Promise<void>;
 }
 
 const NoticeModalCard = styled(Card)({
@@ -41,11 +42,11 @@ export const NoticeContentModal = ({
   open,
   isModify,
   notice,
+  callbackSearchParam,
 }: Props) => {
   const [noticeContent, setNoticeContent] = useState<NoticeDTO>(
     {} as NoticeDTO
   );
-  const [readOnly, setReadOnly] = useState<boolean>(false);
 
   const session = useSession();
 
@@ -85,6 +86,16 @@ export const NoticeContentModal = ({
   const onSubmitContent = () => {
     console.log(noticeContent);
     if (isModify === true) {
+      UpdateNotice({
+        id: notice?.id!!,
+        title: noticeContent.title,
+        content: noticeContent.content,
+        type: noticeContent.type,
+      }).then(() => {
+        alert("등록 되었습니다.");
+        callbackSearchParam();
+        onClose(false);
+      });
       console.log("수정");
     } else {
       CreateNotice({
@@ -93,6 +104,7 @@ export const NoticeContentModal = ({
         type: noticeContent.type,
       }).then(() => {
         alert("등록 되었습니다.");
+        callbackSearchParam();
         onClose(false);
       });
     }

@@ -23,7 +23,6 @@ export const UserPageContent = () => {
   );
 
   const callbackSearchParam = useCallback(() => {
-    console.log(searchParam);
     SearchUserInfo(searchParam).then((res) => setSearchUserRes(res.data));
   }, [searchParam]);
 

@@ -13,16 +13,16 @@ import {
   SearchBibotUserReq,
 } from "@/types/user/RequestType";
 import { GetAllAdminUserRes } from "@/types/notice/ResponseType";
-const { baseUrl } = Config();
+const { userServiceUrl } = Config();
 
 export async function IsInit() {
-  return await CustomAxios.get(
-    baseUrl + "/user-service/public/v1/user/isInit"
-  ).then((res) => res.data);
+  return await CustomAxios.get(`${userServiceUrl}/public/v1/user/isInit`).then(
+    (res) => res.data
+  );
 }
 
 export async function SendVerificationEmail(email: string) {
-  return await CustomAxios.get(baseUrl + "/user-service/public/v1/user/email", {
+  return await CustomAxios.get(`${userServiceUrl}/public/v1/user/email`, {
     params: {
       email: email,
     },
@@ -31,14 +31,14 @@ export async function SendVerificationEmail(email: string) {
 
 export async function VerifyEmail(req: VerifyEmailReq) {
   return await CustomAxios.post(
-    baseUrl + "/user-service/public/v1/user/email",
+    `${userServiceUrl}/public/v1/user/email`,
     req
   ).then((res) => res.data);
 }
 
 export async function GetUser(userId: string) {
   const res: GetUserRes = await CustomAxios.get(
-    baseUrl + "/user-service/api/v1/user",
+    `${userServiceUrl}/api/v1/user`,
     {
       params: {
         id: userId,
@@ -50,7 +50,7 @@ export async function GetUser(userId: string) {
 
 export async function GetUserInfo(userId: string) {
   const res: GetUserInfoRes = await CustomAxios.get(
-    baseUrl + "/user-service/api/v1/user/info",
+    `${userServiceUrl}/api/v1/user/info`,
     {
       params: {
         id: userId,
@@ -62,14 +62,14 @@ export async function GetUserInfo(userId: string) {
 
 export async function GetAllAdminUser() {
   const response: GetAllAdminUserRes = await CustomAxios.get(
-    baseUrl + "/user-service/api/admin/v1/user/admin/all"
+    `${userServiceUrl}/api/admin/v1/user/admin/all`
   ).then((res) => res.data);
   return response;
 }
 
 export async function SearchUserInfo(req: SearchBibotUserReq) {
   const res: SearchBibotUserRes = await CustomAxios.get(
-    baseUrl + "/user-service/api/admin/v1/user/search",
+    `${userServiceUrl}/api/admin/v1/user/search`,
     {
       params: {
         department: req.department,
@@ -85,7 +85,7 @@ export async function SearchUserInfo(req: SearchBibotUserReq) {
 
 export async function CreateUser(req: CreateOrUpdateUserReq) {
   const res: CreateBibotUserRes = await CustomAxios.post(
-    baseUrl + "/user-service/api/admin/v1/user",
+    `${userServiceUrl}/user-service/api/admin/v1/user`,
     req
   ).then((res) => res.data);
   return res;
@@ -93,7 +93,7 @@ export async function CreateUser(req: CreateOrUpdateUserReq) {
 
 export async function UpdateUser(req: CreateOrUpdateUserReq) {
   const res: UpdateUserRes = await CustomAxios.put(
-    baseUrl + "/user-service/api/admin/v1/user",
+    `${userServiceUrl}/api/admin/v1/user`,
     req
   ).then((res) => res.data);
   return res;

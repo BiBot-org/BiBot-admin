@@ -63,8 +63,8 @@ export const AccountMyProfileDetails = ({ userInfo }: Props) => {
                   fullWidth
                   label="이메일"
                   name="state"
-                  required
                   aria-readonly
+                  required
                   value={userInfo?.bibotUser.email}
                 ></TextField>
               </Grid>
