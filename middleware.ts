@@ -1,6 +1,7 @@
 import { getToken } from "next-auth/jwt";
 import { getSession } from "next-auth/react";
 import { NextRequest, NextResponse } from "next/server";
+import { IsInit } from "./service/user/UserService";
 
 export { default } from "next-auth/middleware";
 

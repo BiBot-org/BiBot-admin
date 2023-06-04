@@ -40,6 +40,7 @@ export async function SearchNotice(req: SearchNoticeReq) {
       params: {
         title: req.title,
         page: req.page,
+        type: req.type,
         sort: req.sort,
       },
     }

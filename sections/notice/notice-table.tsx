@@ -19,7 +19,7 @@ import {
 } from "@mui/material";
 import { Scrollbar } from "@/components/scrollbar";
 import { NoticeModal } from "./notice-modal";
-import { SetStateAction, useState } from "react";
+import React, { Dispatch, SetStateAction, useState } from "react";
 import { NoticeContentModal } from "./notice-content-modal";
 import { iSearchNotice } from "@/types/notice/noticeType";
 import { NoticeTableRow } from "./notice-table-row";
@@ -27,14 +27,28 @@ import { SearchNoticeReq } from "@/types/notice/RequestType";
 
 interface Props {
   searchNoticeResult: iSearchNotice;
+  searchParam: SearchNoticeReq;
+  setSearchParam: Dispatch<SetStateAction<SearchNoticeReq>>;
   callbackSearchParam: () => Promise<void>;
 }
 
 export const NoticeTable = ({
   searchNoticeResult,
+  searchParam,
+  setSearchParam,
   callbackSearchParam,
 }: Props) => {
   const [modalOpen, setModalOpen] = useState<boolean>(false);
+
+  const handleChangePagination = (
+    e: React.ChangeEvent<unknown>,
+    value: number
+  ) => {
+    setSearchParam({
+      ...searchParam,
+      page: value - 1,
+    });
+  };
 
   return (
     <>
@@ -77,7 +91,8 @@ export const NoticeTable = ({
         <CardActions sx={{ justifyContent: "flex-end" }}>
           <Pagination
             count={searchNoticeResult.totalPage}
-            page={searchNoticeResult.pageNo + 1}
+            page={searchParam.page + 1}
+            onChange={handleChangePagination}
           />
           <Button onClick={() => setModalOpen(true)} variant="contained">
             작성하기

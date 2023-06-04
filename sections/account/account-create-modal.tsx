@@ -93,7 +93,6 @@ export const CreateOrChangeUserModal = ({
       alert("부서 및 팀 정보를 입력 해 주세요.");
     } else {
       if (isModify === true) {
-        console.log("수정");
         UpdateUser({
           ...userAccountInfo,
           teamId: selectedTeamId,
@@ -115,8 +114,9 @@ export const CreateOrChangeUserModal = ({
               "새로운 계정이 생성 되었습니다. 해당 유저의 이메일로 초기 비밀번호가 전달되었습니다."
             );
           })
-          .catch(() => {
+          .catch((ex) => {
             alert("에러가 발생했습니다.");
+            console.log(ex);
           });
       }
     }

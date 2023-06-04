@@ -1,5 +1,6 @@
 export interface SearchNoticeReq {
   title: string;
+  type: string;
   page: number;
   sort: string;
 }

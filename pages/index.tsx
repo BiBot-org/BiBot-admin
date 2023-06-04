@@ -18,9 +18,22 @@ import { OverviewApproval } from "@/sections/overview/overview-approval";
 import { useRouter } from "next/router";
 import { getSession, useSession } from "next-auth/react";
 import { IsInit } from "@/service/user/UserService";
-import { getServerSession } from "next-auth";
-import { GetServerSidePropsContext } from "next";
-import { authOptions } from "./api/auth/[...nextauth]";
+
+export async function getServerSideProps(result: any) {
+  const initState = await IsInit().then((res) => res.data);
+  if (initState === true) {
+    result.res.writeHead(302, {
+      Location: "/init/initSetup",
+    });
+    result.res.end();
+    return {
+      props: {},
+    };
+  }
+  return {
+    props: {},
+  };
+}
 
 const Page = () => {
   const [isGuideOpen, setIsGuideOpen] = useState<boolean>(false);

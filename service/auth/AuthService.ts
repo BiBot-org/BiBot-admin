@@ -26,6 +26,7 @@ export async function keycloakSignIn(username: string, password: string) {
     .then(async (res) => {
       const tokenResponse: KeycloakTokenRes = res.data;
       return await axios
+
         .get(
           `${authServiceUrl}/realms/bibot-org/protocol/openid-connect/userinfo`,
           {

@@ -85,7 +85,7 @@ export async function SearchUserInfo(req: SearchBibotUserReq) {
 
 export async function CreateUser(req: CreateOrUpdateUserReq) {
   const res: CreateBibotUserRes = await CustomAxios.post(
-    `${userServiceUrl}/user-service/api/admin/v1/user`,
+    `${userServiceUrl}/api/admin/v1/user`,
     req
   ).then((res) => res.data);
   return res;

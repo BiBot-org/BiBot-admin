@@ -1,21 +1,12 @@
-import {
-  ReactElement,
-  SetStateAction,
-  useCallback,
-  useEffect,
-  useState,
-} from "react";
+import { ReactElement } from "react";
 import Head from "next/head";
-import NextLink from "next/link";
-import { useRouter } from "next/navigation";
+
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { Box, Button, Link, Stack, TextField, Typography } from "@mui/material";
 import { Layout as AuthLayout } from "@/layouts/auth/layout";
-import { useSetRecoilState } from "recoil";
-import { userAuthState } from "@/state/user/atom/userLoginState";
+
 import { getSession, signIn, useSession } from "next-auth/react";
-import { getServerSession } from "next-auth";
 
 const Page = () => {
   const formik = useFormik({

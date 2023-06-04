@@ -23,7 +23,6 @@ interface Prop {
 
 export const NoticeSearch = ({ searchParam, setSearchParam }: Prop) => {
   const [selectedType, setSelectedType] = useState<number>(0);
-  const [title, setTitle] = useState<string>("");
 
   const handleOnChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -35,13 +34,37 @@ export const NoticeSearch = ({ searchParam, setSearchParam }: Prop) => {
     }
   };
 
+  const handleChangeMenuItem = (e: SelectChangeEvent) => {
+    const nextValue = e.target.value;
+    if (nextValue === "default") {
+      setSearchParam({
+        ...searchParam,
+        type: "",
+      });
+    } else {
+      setSearchParam({
+        ...searchParam,
+        type: nextValue,
+      });
+    }
+  };
+
   return (
     <Card>
       <CardContent>
         <Grid container rowSpacing={1} sx={{ justifyContent: "center" }}>
           <Grid xs={2}>
-            <Select fullWidth name="type" value={selectedType}>
-              <MenuItem value={0}>종류</MenuItem>
+            <Select
+              fullWidth
+              name="type"
+              value={searchParam.type || ""}
+              onChange={handleChangeMenuItem}
+            >
+              <MenuItem value={""} defaultChecked>
+                종류
+              </MenuItem>
+              <MenuItem value={"COMMON"}>일반</MenuItem>
+              <MenuItem value={"SYSTEM"}>시스템</MenuItem>
             </Select>
           </Grid>
           <Grid xs={2}>

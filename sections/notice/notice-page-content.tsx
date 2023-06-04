@@ -3,21 +3,23 @@ import { Container, Stack, Typography } from "@mui/material";
 import { NoticeTable } from "./notice-table";
 import { NoticeSearch } from "./notice-search";
 import { useCallback, useEffect, useState } from "react";
-import { SearchNoticeRes } from "@/types/notice/ResponseType";
 import { iSearchNotice } from "@/types/notice/noticeType";
 import { SearchNotice } from "@/service/notice/NoticeService";
 import { SearchNoticeReq } from "@/types/notice/RequestType";
 
 export const NoticePageContent = () => {
-  const [searchParam, setSearchParam] = useState<SearchNoticeReq>(
-    {} as SearchNoticeReq
-  );
+  const [searchParam, setSearchParam] = useState<SearchNoticeReq>({
+    title: "",
+    type: "",
+    page: 0,
+    sort: "",
+  } as SearchNoticeReq);
   const [searchNoticeRes, setSearchNoticeRes] = useState<iSearchNotice>(
     {} as iSearchNotice
   );
-  const [modified, setModified] = useState<boolean>(false);
 
   const callbackSearchParam = useCallback(async () => {
+    console.log(searchParam);
     await SearchNotice(searchParam).then((res) =>
       setSearchNoticeRes({ ...res.data })
     );
@@ -37,6 +39,8 @@ export const NoticePageContent = () => {
         />
         <NoticeTable
           searchNoticeResult={searchNoticeRes}
+          searchParam={searchParam}
+          setSearchParam={setSearchParam}
           callbackSearchParam={callbackSearchParam}
         />
       </Stack>
