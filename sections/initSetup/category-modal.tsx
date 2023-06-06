@@ -1,3 +1,4 @@
+"use client";
 import { InitSetupReq, iCategoryInit } from "@/types/user/User";
 import {
   Button,
@@ -17,6 +18,7 @@ import {
   useEffect,
   useState,
 } from "react";
+import Swal from "sweetalert2";
 
 interface iProp {
   onClose: Dispatch<SetStateAction<boolean>>;
@@ -68,7 +70,11 @@ export const CategorySetupModal = (props: iProp) => {
       automatedCost === 0 ||
       resetCycle === "갱신주기"
     ) {
-      alert("값을 입력하세요");
+      Swal.fire({
+        title: "Error",
+        text: "값을 입력하세요",
+        icon: "error",
+      });
     } else {
       const categoryInfo: iCategoryInit = {
         name: categoryName,
@@ -82,7 +88,11 @@ export const CategorySetupModal = (props: iProp) => {
       );
 
       if (categoryData === undefined && idx !== -1) {
-        alert("중복된 이름의 결재 항목이 존재합니다.");
+        Swal.fire({
+          title: "Error",
+          text: "중복된 이름의 결재 항목이 존재합니다.",
+          icon: "error",
+        });
       } else {
         if (idx === -1) {
           setInputData({

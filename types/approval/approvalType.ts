@@ -9,7 +9,6 @@ export interface ApprovalElement {
 }
 
 export interface IOverviewApproval {
-  approvals: ApprovalElement[];
   sx: {
     height: string;
   };

@@ -1,5 +1,6 @@
+"use client";
 import { GetAllCategoryList } from "@/service/category/CategoryService";
-import { Container, Grid, Stack, Typography } from "@mui/material";
+import { Box, Container, Grid, Stack, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import { SetupCategories } from "./setting-categories";
 import { SettingCategoriesDetails } from "./setting-categories-detail";
@@ -27,21 +28,29 @@ export const SettingPageContent = () => {
   }, []);
 
   return (
-    <Container maxWidth="xl">
-      <Stack spacing={3}>
-        <Typography variant="h4">경비 항목 설정</Typography>
-        <Grid container spacing={3}>
-          <Grid xs={12} md={5} mr={1} lg={3}>
-            <SetupCategories
-              categoryList={categoryList}
-              setSelectedCategory={setSelectedCategory}
-            />
+    <Box
+      component="main"
+      sx={{
+        flexGrow: 1,
+        py: 8,
+      }}
+    >
+      <Container maxWidth="xl">
+        <Stack spacing={3}>
+          <Typography variant="h4">경비 항목 설정</Typography>
+          <Grid container spacing={3}>
+            <Grid xs={12} md={5} mr={1} lg={3}>
+              <SetupCategories
+                categoryList={categoryList}
+                setSelectedCategory={setSelectedCategory}
+              />
+            </Grid>
+            <Grid xs={12} md={5} ml={1} lg={7}>
+              <SettingCategoriesDetails selectedCategory={selectedCategory} />
+            </Grid>
           </Grid>
-          <Grid xs={12} md={5} ml={1} lg={7}>
-            <SettingCategoriesDetails selectedCategory={selectedCategory} />
-          </Grid>
-        </Grid>
-      </Stack>
-    </Container>
+        </Stack>
+      </Container>
+    </Box>
   );
 };

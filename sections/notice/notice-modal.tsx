@@ -1,19 +1,18 @@
 import { GetNotice } from "@/service/notice/NoticeService";
 import { GetUser } from "@/service/user/UserService";
-import { NoticeDTO, iNotice } from "@/types/notice/noticeType";
+import { NoticeDTO } from "@/types/notice/noticeType";
 import {
-  Button,
   Card,
-  CardActions,
   CardContent,
   CardHeader,
   Dialog,
   Divider,
+  Skeleton,
   TextField,
-  Typography,
 } from "@mui/material";
 import { styled } from "@mui/system";
-import { Dispatch, SetStateAction, useEffect, useState } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
 
 interface iProp {
   onClose: Dispatch<SetStateAction<boolean>>;
@@ -27,21 +26,31 @@ const NoticeModalCard = styled(Card)({
 });
 
 export const NoticeModal = ({ onClose, open, notice }: iProp) => {
-  const [author, setAuthor] = useState<string>("");
-
-  useEffect(() => {
-    if (notice.createdBy) {
-      GetUser(notice.createdBy).then((res) => {
-        const userName = `${res.data.lastName} ${res.data.firstName}`;
-        setAuthor(userName);
-      });
+  const { data, isLoading } = useQuery(
+    [`getUser : ${notice.createdBy}`],
+    () => GetUser(notice.createdBy),
+    {
+      refetchOnWindowFocus: false,
+      retry: 0,
     }
-  }, [notice]);
+  );
+
+  if (isLoading) {
+    return (
+      <Dialog onClose={onClose} open={open}>
+        {" "}
+        <Skeleton height="400px" />
+      </Dialog>
+    );
+  }
 
   return (
     <Dialog onClose={onClose} open={open}>
       <NoticeModalCard>
-        <CardHeader title={notice.title} subheader={author} />
+        <CardHeader
+          title={notice.title}
+          subheader={`${data?.data.lastName} ${data?.data.firstName}`}
+        />
         <Divider />
         <CardContent>
           <TextField

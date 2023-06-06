@@ -28,6 +28,7 @@ import { DepartmentDTO, DepartmentInfo } from "@/types/department/types";
 import { GetAllDepartments } from "@/service/department/DepartmentService";
 import { BibotUserDTO, BibotUserInfo } from "@/types/user/User";
 import { CreateUser, UpdateUser } from "@/service/user/UserService";
+import Swal from "sweetalert2";
 
 interface iProp {
   onClose: Dispatch<SetStateAction<boolean>>;
@@ -90,33 +91,49 @@ export const CreateOrChangeUserModal = ({
 
   const onSubmitUserInfo = () => {
     if (selectedDepartmentId === 0 || selectedTeamId === 0) {
-      alert("부서 및 팀 정보를 입력 해 주세요.");
+      Swal.fire({
+        title: "Error",
+        text: "부서 및 팀 정보를 입력 해 주세요",
+        icon: "error",
+      });
     } else {
       if (isModify === true) {
         UpdateUser({
           ...userAccountInfo,
           teamId: selectedTeamId,
         })
-          .then((res) => {
-            alert("계정 정보가 변경 되었습니다.");
+          .then(() => {
+            Swal.fire({
+              title: "Success",
+              text: "계정 정보가 변경 되었습니다.",
+              icon: "success",
+            });
           })
           .catch(() => {
-            alert("에러가 발생했습니다.");
+            Swal.fire({
+              title: "Error",
+              text: "에러가 발생했습니다.",
+              icon: "error",
+            });
           });
       } else {
-        console.log("저장");
         CreateUser({
           ...userAccountInfo,
           teamId: selectedTeamId,
         })
-          .then((res) => {
-            alert(
-              "새로운 계정이 생성 되었습니다. 해당 유저의 이메일로 초기 비밀번호가 전달되었습니다."
-            );
+          .then(() => {
+            Swal.fire({
+              title: "Success",
+              text: "새로운 계정이 생성 되었습니다. 해당 유저의 이메일로 초기 비밀번호가 전달되었습니다.",
+              icon: "success",
+            });
           })
-          .catch((ex) => {
-            alert("에러가 발생했습니다.");
-            console.log(ex);
+          .catch(() => {
+            Swal.fire({
+              title: "Error",
+              text: "에러가 발생했습니다.",
+              icon: "error",
+            });
           });
       }
     }

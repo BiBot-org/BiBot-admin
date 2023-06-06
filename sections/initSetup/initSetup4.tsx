@@ -1,9 +1,11 @@
+"use client";
 import { InitalizeService } from "@/service/auth/RootService";
 import { InitSetupReq } from "@/types/user/User";
 import {
   Accordion,
   AccordionDetails,
   AccordionSummary,
+  Box,
   Button,
   Card,
   CardContent,
@@ -25,7 +27,6 @@ interface iProps {
 export const InitSetup4 = ({
   inputData,
   setInputData,
-  handleStepNext,
   handleStepPrev,
 }: iProps) => {
   const [selectedValue, setSelectedValue] = useState<string>("");
@@ -50,69 +51,88 @@ export const InitSetup4 = ({
   };
 
   return (
-    <div>
-      <Stack spacing={1} sx={{ mb: 3 }}>
-        <Typography variant="h5">
-          관리자의 부서 및 팀 정보를 입력 해 주세요.
-        </Typography>
-        <Typography color="text.secondary" variant="body2">
-          관리자가 소속 된 부서 및 팀 정보를 입력 해 주세요.
-        </Typography>
-        <Stack spacing={3}>
-          {inputData.departmentList &&
-            inputData.departmentList.map((dept) => (
-              <>
-                <Accordion id={dept.name + " : acc2"}>
-                  <AccordionSummary>
-                    <Typography>{dept.name}</Typography>
-                  </AccordionSummary>
-                  <AccordionDetails>
-                    {dept.teams &&
-                      dept.teams.map((team) => (
-                        <>
-                          <Card id={"card : " + team}>
-                            <CardContent>
-                              <Radio
-                                checked={selectedValue === team}
-                                onChange={handleChange}
-                                name="radio-buttons"
-                                value={team}
-                              />
-                              <Typography>{team}</Typography>
-                            </CardContent>
-                          </Card>
-                        </>
-                      ))}
-                  </AccordionDetails>
-                </Accordion>
-              </>
-            ))}
-        </Stack>
-      </Stack>
-      <Grid container sx={{ flex: "1 1 auto" }}>
-        <Grid xs={5} lg={6}>
-          <Button
-            fullWidth
-            size="large"
-            sx={{ mt: 3 }}
-            variant="contained"
-            onClick={handleStepPrev}
-          >
-            이전
-          </Button>
-        </Grid>
-        <Grid xs={5} lg={6}>
-          <Button
-            fullWidth
-            size="large"
-            sx={{ mt: 3 }}
-            variant="contained"
-            onClick={handleSubmitInitData}
-          >
-            등록
-          </Button>
-        </Grid>
-      </Grid>
-    </div>
+    <Box
+      sx={{
+        backgroundColor: "background.paper",
+        flex: "1 1 auto",
+        alignItems: "center",
+        display: "flex",
+        justifyContent: "center",
+      }}
+    >
+      <Box
+        sx={{
+          maxWidth: 550,
+          px: 3,
+          py: "100px",
+          width: "100%",
+        }}
+      >
+        <div>
+          <Stack spacing={1} sx={{ mb: 3 }}>
+            <Typography variant="h5">
+              관리자의 부서 및 팀 정보를 입력 해 주세요.
+            </Typography>
+            <Typography color="text.secondary" variant="body2">
+              관리자가 소속 된 부서 및 팀 정보를 입력 해 주세요.
+            </Typography>
+            <Stack spacing={3}>
+              {inputData.departmentList &&
+                inputData.departmentList.map((dept) => (
+                  <>
+                    <Accordion id={dept.name + " : acc2"}>
+                      <AccordionSummary>
+                        <Typography>{dept.name}</Typography>
+                      </AccordionSummary>
+                      <AccordionDetails>
+                        {dept.teams &&
+                          dept.teams.map((team) => (
+                            <>
+                              <Card id={"card : " + team}>
+                                <CardContent>
+                                  <Radio
+                                    checked={selectedValue === team}
+                                    onChange={handleChange}
+                                    name="radio-buttons"
+                                    value={team}
+                                  />
+                                  <Typography>{team}</Typography>
+                                </CardContent>
+                              </Card>
+                            </>
+                          ))}
+                      </AccordionDetails>
+                    </Accordion>
+                  </>
+                ))}
+            </Stack>
+          </Stack>
+          <Grid container sx={{ flex: "1 1 auto" }}>
+            <Grid xs={5} lg={6}>
+              <Button
+                fullWidth
+                size="large"
+                sx={{ mt: 3 }}
+                variant="contained"
+                onClick={handleStepPrev}
+              >
+                이전
+              </Button>
+            </Grid>
+            <Grid xs={5} lg={6}>
+              <Button
+                fullWidth
+                size="large"
+                sx={{ mt: 3 }}
+                variant="contained"
+                onClick={handleSubmitInitData}
+              >
+                등록
+              </Button>
+            </Grid>
+          </Grid>
+        </div>
+      </Box>
+    </Box>
   );
 };

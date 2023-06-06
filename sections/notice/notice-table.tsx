@@ -75,13 +75,11 @@ export const NoticeTable = ({
               <TableBody>
                 {searchNoticeResult.content &&
                   searchNoticeResult.content.map((notice) => (
-                    <>
-                      <NoticeTableRow
-                        key={`notice_table_row ${notice.id}`}
-                        notice={notice}
-                        callbackSearchParam={callbackSearchParam}
-                      />
-                    </>
+                    <NoticeTableRow
+                      key={`notice_table_row ${notice.id}`}
+                      notice={notice}
+                      callbackSearchParam={callbackSearchParam}
+                    />
                   ))}
               </TableBody>
             </Table>

@@ -24,14 +24,6 @@ function SessionLoader({ children }: PropsWithChildren<{}>) {
   const router = useRouter();
   const isLogin = session && status === "authenticated";
 
-  // useEffect(() => {
-  //   console.log(session, status, isLogin);
-  //   if (!isLogin) {
-  //     console.log("로그인 안했노...");
-  //     // router.push("/login");
-  //   }
-  // }, [isLogin, session, status]);
-
   return <>{children}</>;
 }
 

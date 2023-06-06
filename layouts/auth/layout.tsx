@@ -2,6 +2,7 @@ import PropTypes from "prop-types";
 import NextLink from "next/link";
 import { Box, Unstable_Grid2 as Grid } from "@mui/material";
 import { Logo } from "@/components/logo";
+import Image from "next/image";
 
 export const Layout = (props: any) => {
   const { children } = props;
@@ -64,7 +65,12 @@ export const Layout = (props: any) => {
           }}
         >
           <Box sx={{ p: 3 }}>
-            <img alt="" src="/assets/logo_bibot.svg" />
+            <Image
+              alt="logo"
+              src="/assets/logo_bibot.svg"
+              width={400}
+              height={400}
+            />
           </Box>
         </Grid>
       </Grid>

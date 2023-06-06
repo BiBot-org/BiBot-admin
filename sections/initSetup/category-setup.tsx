@@ -1,3 +1,4 @@
+"use client";
 import { InitSetupReq, iCategoryInit } from "@/types/user/User";
 import {
   Accordion,
