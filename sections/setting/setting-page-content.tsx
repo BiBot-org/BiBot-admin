@@ -4,8 +4,8 @@ import { Box, Container, Grid, Stack, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import { SetupCategories } from "./setting-categories";
 import { SettingCategoriesDetails } from "./setting-categories-detail";
-import { CategoryDTO } from "@/types/category/ResponseTypes";
 import { GetAllCategoryListRes } from "@/types/category/ResponseType";
+import { CategoryDTO } from "@/types/category/types";
 
 export const SettingPageContent = () => {
   const [categoryList, setCategoryList] = useState<CategoryDTO[]>([]);
@@ -39,13 +39,13 @@ export const SettingPageContent = () => {
         <Stack spacing={3}>
           <Typography variant="h4">경비 항목 설정</Typography>
           <Grid container spacing={3}>
-            <Grid xs={12} md={5} mr={1} lg={3}>
+            <Grid xs={4} item={true}>
               <SetupCategories
                 categoryList={categoryList}
                 setSelectedCategory={setSelectedCategory}
               />
             </Grid>
-            <Grid xs={12} md={5} ml={1} lg={7}>
+            <Grid xs={6} item={true}>
               <SettingCategoriesDetails selectedCategory={selectedCategory} />
             </Grid>
           </Grid>

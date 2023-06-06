@@ -1,5 +1,5 @@
 import { string } from "prop-types";
-import { CategoryDTO } from "../category/ResponseTypes";
+import { CategoryDTO } from "../category/types";
 
 export interface ApprovalDTO {
   id: string;
