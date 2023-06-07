@@ -74,7 +74,6 @@ export async function InitalizeService(initSetupReq: InitSetupReq) {
       return accessToken;
     })
     .then(async (accessToken) => {
-      console.log(3);
       await SetRootUser(
         accessToken,
         initSetupReq.firstName,

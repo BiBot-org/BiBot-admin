@@ -84,7 +84,6 @@ export const NoticeContentModal = ({
   };
 
   const onSubmitContent = () => {
-    console.log(noticeContent);
     if (isModify === true) {
       UpdateNotice({
         id: notice?.id!!,
@@ -96,7 +95,6 @@ export const NoticeContentModal = ({
         callbackSearchParam();
         onClose(false);
       });
-      console.log("수정");
     } else {
       CreateNotice({
         title: noticeContent.title,

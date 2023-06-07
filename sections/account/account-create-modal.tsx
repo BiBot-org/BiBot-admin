@@ -72,7 +72,6 @@ export const CreateOrChangeUserModal = ({
 
   const handleChangeMenuItenm = (e: SelectChangeEvent) => {
     const nextValue = Number(e.target.value);
-    console.log(e);
     if (e.target.name === "department") {
       setSelectedDepartmentId(nextValue);
       setSelectedTeamId(0);
@@ -137,8 +136,6 @@ export const CreateOrChangeUserModal = ({
           });
       }
     }
-
-    console.log(userAccountInfo);
   };
 
   return (

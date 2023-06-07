@@ -34,7 +34,6 @@ export default function UnProcessedHistoryTable() {
       </div>
     );
   } else {
-    console.log(data);
     return (
       <Box sx={{ minWidth: 800 }}>
         <Table>

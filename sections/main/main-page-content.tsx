@@ -33,7 +33,6 @@ export const MainPageContent = () => {
   useEffect(() => {
     if (!isInit) {
       handleGuideOpen();
-      console.log(session, status);
     }
   }, []);
 

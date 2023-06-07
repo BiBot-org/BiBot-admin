@@ -20,21 +20,14 @@ export const jwtCallback = async ({
   token: JWT;
   user: User;
 }) => {
-  console.log("wasssssup jwtToken callback");
   if (token?.expiresIn) {
-    console.log("1번 조건");
     if (Math.floor(Date.now() / 1000) < token?.expiresIn!!) {
-      console.log("아무 일 없음");
-      console.log(token, user);
       return { ...token };
     } else if (
       token?.refreshToken &&
       Math.floor(Date.now() / 1000) < token.refreshExpiresIn!!
     ) {
-      console.log("2번 조건");
-      console.log(token);
       const newTokenData: TokenRes = await reissueToken(token.refreshToken!!);
-      console.log(newTokenData);
       token.accessToken = newTokenData.accessToken;
       token.expiresIn = newTokenData.expiresIn;
       token.refreshToken = newTokenData.refreshToken;
@@ -42,7 +35,6 @@ export const jwtCallback = async ({
       return { ...token };
     }
   }
-  console.log("login");
   token.accessToken = user.tokenRes.accessToken;
   token.refreshToken = user.tokenRes.refreshToken;
   token.expiresIn = user.tokenRes.expiresIn;
@@ -61,7 +53,6 @@ export const session = ({
   session: Session;
   token: JWT;
 }): Promise<Session> => {
-  console.log("Waaaaasup Session Callback", session, token);
   if (
     Math.floor(Date.now() / 1000) > token?.expiresIn! &&
     token?.refreshTokenExpires &&

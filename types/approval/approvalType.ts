@@ -1,3 +1,12 @@
+export interface ApprovalDTO {
+  id: string;
+  managerId: string;
+  requesterId: string;
+  status: string;
+  comment: string;
+  isAutomated: boolean;
+}
+
 export interface ApprovalElement {
   id: string;
   name: string;

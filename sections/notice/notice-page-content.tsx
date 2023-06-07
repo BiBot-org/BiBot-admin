@@ -20,7 +20,6 @@ export const NoticePageContent = () => {
   );
 
   const callbackSearchParam = useCallback(async () => {
-    console.log(searchParam);
     await SearchNotice(searchParam).then((res) =>
       setSearchNoticeRes({ ...res.data })
     );

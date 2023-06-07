@@ -1,4 +1,3 @@
-import { string } from "prop-types";
 import { CategoryDTO } from "../category/types";
 
 export interface ApprovalDTO {
@@ -8,6 +7,11 @@ export interface ApprovalDTO {
   status: string;
   comment: string;
   isAutomated: boolean;
+}
+
+export interface SearchAdminApprovalRes extends ApprovalDTO {
+  regTime: string;
+  categoryId: number;
 }
 
 export interface ApprovalInfo {

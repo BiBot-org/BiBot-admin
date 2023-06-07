@@ -36,7 +36,7 @@ export default function UnproccessedHistoryDialog({
     <Dialog onClose={onClose} open={open}>
       <Card>
         <CardHeader
-          title={`${paymentHistoryInfo.regTime} 미사용 내역`}
+          title={`${paymentHistoryInfo.regTime} 미처리 내역`}
           subheader={`카드사 : ${paymentHistoryInfo.cardCompany}`}
         />
         <Divider />
