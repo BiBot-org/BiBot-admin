@@ -40,7 +40,7 @@ export default function UnProcessedHistoryTable() {
           <TableHead>
             <TableRow>
               <TableCell style={{ width: "20%" }}>ID</TableCell>
-              <TableCell style={{ width: "20%" }}>카드사</TableCell>
+              <TableCell style={{ width: "20%" }}>사원명</TableCell>
               <TableCell style={{ width: "20%" }}>거래처</TableCell>
               <TableCell style={{ width: "20%" }}>금액</TableCell>
               <TableCell style={{ width: "20%" }}>날짜</TableCell>
