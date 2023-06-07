@@ -1,42 +1,101 @@
-import { Box, MenuItem, Modal, Select } from "@mui/material";
-import { SetStateAction } from "react";
+import { RequestApproval } from "@/service/expense/ExpenseService";
+import {
+  Box,
+  Button,
+  Card,
+  CardActions,
+  CardContent,
+  CardHeader,
+  Dialog,
+  DialogContentText,
+  DialogTitle,
+  MenuItem,
+  Modal,
+  Select,
+  TextField,
+} from "@mui/material";
+import { Stack } from "@mui/system";
+import { ChangeEvent, SetStateAction, useState } from "react";
+import Swal from "sweetalert2";
 
 interface Props {
+  approvalId: string;
   openModal: boolean;
   setOpenModal: React.Dispatch<SetStateAction<boolean>>;
 }
 
 export default function ApprovalManagerModal({
+  approvalId,
   openModal,
   setOpenModal,
 }: Props) {
+  const [content, setContent] = useState<string>("");
+
+  const onChangeTextInput = (e: ChangeEvent<HTMLInputElement>) => {
+    setContent(e.target.value);
+  };
+
+  const onClickSubmit = () => {
+    Swal.fire({
+      title: "확인",
+      text: "반려 하시겠습니까?",
+      icon: "question",
+      showCloseButton: true,
+    }).then((res) => {
+      if (res.isConfirmed) {
+        RequestApproval({
+          approvalId: approvalId,
+          status: "REJECT",
+          comment: content,
+        })
+          .then(() => {
+            Swal.fire({
+              title: "Success!",
+              text: "성공적으로 처리 되었습니다.",
+              icon: "success",
+            });
+          })
+          .catch(() => {
+            Swal.fire({
+              title: "Error!",
+              text: "에러가 발생했습니다.",
+              icon: "error",
+            });
+          });
+      }
+    });
+  };
+
   return (
-    <Modal
-      open={openModal}
-      onClose={() => setOpenModal(false)}
-      aria-labelledby="modal-modal-title"
-      aria-describedby="modal-modal-description"
-    >
-      <Box
-        sx={{
-          position: "absolute",
-          top: "50%",
-          left: "50%",
-          transform: "translate(-50%, -50%)",
-          width: 400,
-          bgcolor: "background.paper",
-          border: "2px solid #000",
-          boxShadow: 24,
-          p: 4,
-        }}
-      >
-        <h2>거절 사유</h2>
-        <Select>
-          <MenuItem>거절사유 1</MenuItem>
-          <MenuItem>거절사유 2</MenuItem>
-          <MenuItem>거절사유 3</MenuItem>
-        </Select>
-      </Box>
-    </Modal>
+    <Dialog open={openModal} onClose={() => setOpenModal(false)}>
+      <Card>
+        <CardHeader
+          title="경비 요청 반려"
+          subheader="경비 요청 반려 사유를 입력 해 주세요."
+        />
+        <CardContent>
+          <TextField
+            fullWidth
+            label="반려 사유를 입력하세요"
+            multiline
+            maxRows={14}
+            onChange={onChangeTextInput}
+            inputProps={{
+              style: {
+                height: "400px",
+              },
+            }}
+          />
+        </CardContent>
+        <CardActions sx={{ justifyContent: "flex-end" }}>
+          <Button variant="outlined" onClick={() => setOpenModal(false)}>
+            취소
+          </Button>
+          <Button variant="contained" onClick={onClickSubmit}>
+            반려
+          </Button>
+        </CardActions>
+      </Card>
+    </Dialog>
   );
 }

@@ -21,6 +21,10 @@ import ApprovalManagerModal from "./approval-manager-modal";
 import Image from "next/image";
 import { SearchAdminApprovalRes } from "@/types/expense/types";
 import { useGetReceiptInfoByApproveId } from "@/service/receipt/ReceiptService";
+import Swal from "sweetalert2";
+import { RequestApproval } from "@/service/expense/ExpenseService";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { RequestApprovalReq } from "@/types/approval/RequestType";
 
 interface Prop {
   approvalInfo: SearchAdminApprovalRes;
@@ -28,16 +32,56 @@ interface Prop {
 
 export default function ApprovalTableRowDetail({ approvalInfo }: Prop) {
   const [openModal, setOpenModal] = useState(false);
+  const queryClient = useQueryClient();
   const { isLoading, data } = useGetReceiptInfoByApproveId(approvalInfo.id);
+  const { mutate } = useMutation((req: RequestApprovalReq) =>
+    RequestApproval(req)
+  );
+  const onClickApprove = () => {
+    Swal.fire({
+      title: "확인",
+      text: "승인 하시겠습니까?",
+      icon: "question",
+      showCancelButton: true,
+    }).then((res) => {
+      if (res.isConfirmed) {
+        mutate(
+          {
+            approvalId: approvalInfo.id,
+            status: "APPROVED",
+            comment: "자동결제",
+          },
+          {
+            onSuccess: () => {
+              Swal.fire({
+                title: "Success!",
+                text: "성공적으로 처리 되었습니다.",
+                icon: "success",
+              }).then(() =>
+                queryClient.invalidateQueries(["searchApprovalInfo"])
+              );
+            },
+            onError: () => {
+              Swal.fire({
+                title: "Error!",
+                text: "에러가 발생했습니다.",
+                icon: "error",
+              });
+            },
+          }
+        );
+      }
+    });
+  };
+
   if (isLoading) {
     return <div>loading</div>;
   }
 
-  console.log(data);
-
   return (
     <>
       <ApprovalManagerModal
+        approvalId={approvalInfo.id}
         openModal={openModal}
         setOpenModal={() => setOpenModal(false)}
       />
@@ -136,7 +180,9 @@ export default function ApprovalTableRowDetail({ approvalInfo }: Prop) {
             </CardContent>
             {approvalInfo.status === "PENDING" && (
               <CardActions sx={{ justifyContent: "flex-end" }}>
-                <Button variant="contained">승인</Button>
+                <Button variant="contained" onClick={onClickApprove}>
+                  승인
+                </Button>
                 <Button variant="contained" onClick={() => setOpenModal(true)}>
                   거절
                 </Button>

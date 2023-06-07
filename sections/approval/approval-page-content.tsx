@@ -2,7 +2,6 @@
 import { Box, Container, Stack, Typography } from "@mui/material";
 import { ApprovalSearch } from "./approval-search";
 import { ApprovalTable } from "./approval-table";
-import { useSearchApprovalInfoQuery } from "@/service/expense/ExpenseService";
 import { useState } from "react";
 import { SearchApprovalReq } from "@/types/approval/RequestType";
 import dayjs from "dayjs";

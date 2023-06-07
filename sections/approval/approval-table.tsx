@@ -16,6 +16,7 @@ import { SearchApprovalRes } from "@/types/approval/ResponseType";
 import { SearchApprovalReq } from "@/types/approval/RequestType";
 import ApprovalTableRow from "./approval-table-row";
 import { useSearchApprovalInfoQuery } from "@/service/expense/ExpenseService";
+import { useMutation } from "@tanstack/react-query";
 
 interface Props {
   searchParam: SearchApprovalReq;

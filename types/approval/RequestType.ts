@@ -5,3 +5,9 @@ export interface SearchApprovalReq {
   categoryId?: number;
   page: number;
 }
+
+export interface RequestApprovalReq {
+  approvalId: string;
+  status: string;
+  comment: string;
+}
