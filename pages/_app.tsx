@@ -9,14 +9,15 @@ import { createEmotionCache } from "@/utils/create-emotion-cache";
 import "simplebar-react/dist/simplebar.min.css";
 import { AppProps } from "next/app";
 import { NextPage } from "next";
-import { useEffect, type ReactElement, type ReactNode } from "react";
+import { type ReactElement, type ReactNode } from "react";
 import Router, { useRouter } from "next/router";
 import nProgress from "nprogress";
-import { MutableSnapshot, RecoilRoot, SetRecoilState } from "recoil";
+import { MutableSnapshot, RecoilRoot } from "recoil";
 import { userAuthState } from "@/state/user/atom/userLoginState";
 import { SessionProvider, useSession } from "next-auth/react";
-import SessionLoader from "@/layouts/dashboard/session-loader";
-
+import { LoaderContent } from "@/sections/loader/loader-content";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 const clientSideEmotionCache = createEmotionCache();
 
 type NextPageWithLayout<P = {}, IP = P, auth = boolean> = NextPage<P, IP> & {
@@ -28,7 +29,7 @@ function Auth({ children: page }: { children: ReactNode }) {
   const { status } = useSession({ required: true });
   const router = useRouter();
   if (status === "loading") {
-    return <div>loading....</div>;
+    return <LoaderContent />;
   } else if (status !== "authenticated") {
     router.push("/login");
   }
@@ -63,6 +64,7 @@ function App(props: BibotAppProps) {
       : null;
 
   const getLayout = Component.getLayout ?? ((page) => page);
+  const queryClient = new QueryClient();
 
   Router.events.on("routeChangeStart", nProgress.start);
   Router.events.on("routeChangeError", nProgress.done);
@@ -71,25 +73,28 @@ function App(props: BibotAppProps) {
   return (
     <CacheProvider value={emotionCache}>
       <SessionProvider session={pageProps.session}>
-        <RecoilRoot initializeState={initializeState}>
-          <Head>
-            <title>BiBot-org</title>
-            <meta
-              name="viewport"
-              content="initial-scale=1, width=device-width"
-            />
-          </Head>
-          <LocalizationProvider dateAdapter={AdapterDateFns}>
-            <ThemeProvider theme={theme}>
-              <CssBaseline />
-              {Component.auth ? (
-                <Auth>{getLayout(<Component {...pageProps} />)}</Auth>
-              ) : (
-                <>{getLayout(<Component {...pageProps} />)}</>
-              )}
-            </ThemeProvider>
-          </LocalizationProvider>
-        </RecoilRoot>
+        <QueryClientProvider client={queryClient}>
+          <ReactQueryDevtools initialIsOpen />
+          <RecoilRoot initializeState={initializeState}>
+            <Head>
+              <title>BiBot-org</title>
+              <meta
+                name="viewport"
+                content="initial-scale=1, width=device-width"
+              />
+            </Head>
+            <LocalizationProvider dateAdapter={AdapterDateFns}>
+              <ThemeProvider theme={theme}>
+                <CssBaseline />
+                {Component.auth ? (
+                  <Auth>{getLayout(<Component {...pageProps} />)}</Auth>
+                ) : (
+                  <>{getLayout(<Component {...pageProps} />)}</>
+                )}
+              </ThemeProvider>
+            </LocalizationProvider>
+          </RecoilRoot>
+        </QueryClientProvider>
       </SessionProvider>
     </CacheProvider>
   );

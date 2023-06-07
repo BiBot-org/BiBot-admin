@@ -1,3 +1,4 @@
+"use client";
 import {
   Button,
   Dialog,
@@ -20,6 +21,7 @@ import React, {
   useState,
 } from "react";
 import { InitSetupReq, iDepartmentInit } from "@/types/user/User";
+import Swal from "sweetalert2";
 
 interface iProp {
   onClose: Dispatch<SetStateAction<boolean>>;
@@ -58,19 +60,31 @@ export const DepartmentModal = (props: iProp) => {
   const onClickAddTeamName = () => {
     if (teamName !== "") {
       if (teamList.find((e) => e === teamName)) {
-        alert("동일한 팀이 존재합니다.");
+        Swal.fire({
+          title: "Error",
+          text: "동일한 팀이 존재합니다.",
+          icon: "error",
+        });
       } else {
         setTeamList([...teamList, teamName]);
         setTeamName("");
       }
     } else {
-      alert("팀 이름을 입력하세요");
+      Swal.fire({
+        title: "Error",
+        text: "팀 이름을 입력하세요",
+        icon: "error",
+      });
     }
   };
 
   const onClickSaveButton = () => {
     if (departmentName === "") {
-      alert("부서 이름을 입력하세요.");
+      Swal.fire({
+        title: "Error",
+        text: "부서 이름을 입력하세요.",
+        icon: "error",
+      });
     } else {
       const departmentInfo: iDepartmentInit = {
         name: departmentName,
@@ -81,7 +95,11 @@ export const DepartmentModal = (props: iProp) => {
       );
 
       if (departmentData === undefined && idx !== -1) {
-        alert("중복된 이름의 부서가 존재합니다.");
+        Swal.fire({
+          title: "Error",
+          text: "중복된 이름의 부서가 존재합니다.",
+          icon: "error",
+        });
       } else {
         if (idx === -1) {
           setInputData({

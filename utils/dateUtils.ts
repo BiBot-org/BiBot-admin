@@ -16,11 +16,6 @@ export function NextChangeableDate(
 }
 
 export function formatLocalDate(date: Date): string {
-  console.log(date);
-  console.log(date.toLocaleString());
-  console.log(date.getFullYear());
-  console.log(date.getMonth());
-  console.log(date.getDate());
   return `${date.getFullYear()} 년  ${date.getMonth()} 월 ${date.getDay()} 일`;
 }
 
@@ -50,4 +45,10 @@ export function getFormattedDateTimeFromLocalDateTime(localDateTime: string) {
   } else {
     return "";
   }
+}
+
+export function calculateThreeMonthAgo(date: number) {
+  const now = new Date(date);
+  const newDate = now.setMonth(now.getMonth() - 3);
+  return newDate;
 }

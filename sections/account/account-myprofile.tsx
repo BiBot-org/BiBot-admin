@@ -36,7 +36,7 @@ export const AccountMyProfile = ({ userInfo }: Props) => (
         {userInfo && (
           <>
             <Avatar
-              src={user.avatar}
+              src={userInfo.bibotUser.profileUrl}
               sx={{
                 height: 175,
                 mb: 2,

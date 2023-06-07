@@ -29,16 +29,14 @@ export const SetupManager = ({ adminUserList, setSelectedAdmin }: Prop) => {
       <CardContent>
         {adminUserList &&
           adminUserList.map((admin) => (
-            <>
-              <Button
-                fullWidth
-                key={`admin_button : ${admin.userId}`}
-                variant="text"
-                onClick={() => onClickButton(admin)}
-              >
-                {admin.lastName} {admin.firstName}
-              </Button>
-            </>
+            <Button
+              fullWidth
+              key={`admin_button : ${admin.userId}`}
+              variant="text"
+              onClick={() => onClickButton(admin)}
+            >
+              {admin.lastName} {admin.firstName}
+            </Button>
           ))}
       </CardContent>
       <Divider />

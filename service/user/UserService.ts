@@ -1,6 +1,6 @@
 import Config from "@/config/config.export";
 import { CustomAxios } from "@/constant/CustomAxios";
-import { BibotUserDTO, VerifyEmailReq } from "@/types/user/User";
+import { VerifyEmailReq } from "@/types/user/User";
 import {
   CreateBibotUserRes,
   GetUserInfoRes,
@@ -13,6 +13,8 @@ import {
   SearchBibotUserReq,
 } from "@/types/user/RequestType";
 import { GetAllAdminUserRes } from "@/types/notice/ResponseType";
+import { useQuery } from "@tanstack/react-query";
+import { AxiosError } from "axios";
 const { userServiceUrl } = Config();
 
 export async function IsInit() {
@@ -60,6 +62,13 @@ export async function GetUserInfo(userId: string) {
   return res;
 }
 
+export function useGetUserQuery(userId: string) {
+  return useQuery<GetUserInfoRes, AxiosError>(
+    [`userInfo " ${userId}`],
+    async () => await GetUserInfo(userId)
+  );
+}
+
 export async function GetAllAdminUser() {
   const response: GetAllAdminUserRes = await CustomAxios.get(
     `${userServiceUrl}/api/admin/v1/user/admin/all`
@@ -85,7 +94,7 @@ export async function SearchUserInfo(req: SearchBibotUserReq) {
 
 export async function CreateUser(req: CreateOrUpdateUserReq) {
   const res: CreateBibotUserRes = await CustomAxios.post(
-    `${userServiceUrl}/user-service/api/admin/v1/user`,
+    `${userServiceUrl}/api/admin/v1/user`,
     req
   ).then((res) => res.data);
   return res;
@@ -97,4 +106,16 @@ export async function UpdateUser(req: CreateOrUpdateUserReq) {
     req
   ).then((res) => res.data);
   return res;
+}
+
+export async function UpdateUserPassword(
+  password: string,
+  newPassword: string
+) {
+  /*
+  우선 또 다른 토큰을 발생 시킴으로써 로그인 가능한 지 확인
+  토큰 정보가 돌아온다면, 비밀번호 확인
+  그 이후에는 비밀번호 변경 API 전달
+  로그아웃
+  */
 }

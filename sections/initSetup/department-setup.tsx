@@ -1,3 +1,4 @@
+"use client";
 import { InitSetupReq, iDepartmentInit } from "@/types/user/User";
 import {
   Accordion,
@@ -7,7 +8,6 @@ import {
   Button,
   Card,
   CardContent,
-  Stack,
   Typography,
 } from "@mui/material";
 import { SetStateAction, useState } from "react";

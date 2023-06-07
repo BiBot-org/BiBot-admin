@@ -1,21 +1,23 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { Container, Stack, Typography } from "@mui/material";
+"use client";
+import { Box, Container, Stack, Typography } from "@mui/material";
 import { NoticeTable } from "./notice-table";
 import { NoticeSearch } from "./notice-search";
 import { useCallback, useEffect, useState } from "react";
-import { SearchNoticeRes } from "@/types/notice/ResponseType";
 import { iSearchNotice } from "@/types/notice/noticeType";
 import { SearchNotice } from "@/service/notice/NoticeService";
 import { SearchNoticeReq } from "@/types/notice/RequestType";
 
 export const NoticePageContent = () => {
-  const [searchParam, setSearchParam] = useState<SearchNoticeReq>(
-    {} as SearchNoticeReq
-  );
+  const [searchParam, setSearchParam] = useState<SearchNoticeReq>({
+    title: "",
+    type: "",
+    page: 0,
+    sort: "",
+  } as SearchNoticeReq);
   const [searchNoticeRes, setSearchNoticeRes] = useState<iSearchNotice>(
     {} as iSearchNotice
   );
-  const [modified, setModified] = useState<boolean>(false);
 
   const callbackSearchParam = useCallback(async () => {
     await SearchNotice(searchParam).then((res) =>
@@ -28,18 +30,28 @@ export const NoticePageContent = () => {
   }, [searchParam]);
 
   return (
-    <Container maxWidth="xl">
-      <Stack spacing={3}>
-        <Typography variant="h4">공지 사항</Typography>
-        <NoticeSearch
-          searchParam={searchParam}
-          setSearchParam={setSearchParam}
-        />
-        <NoticeTable
-          searchNoticeResult={searchNoticeRes}
-          callbackSearchParam={callbackSearchParam}
-        />
-      </Stack>
-    </Container>
+    <Box
+      component="main"
+      sx={{
+        flexGrow: 1,
+        py: 8,
+      }}
+    >
+      <Container maxWidth="xl">
+        <Stack spacing={3}>
+          <Typography variant="h4">공지 사항</Typography>
+          <NoticeSearch
+            searchParam={searchParam}
+            setSearchParam={setSearchParam}
+          />
+          <NoticeTable
+            searchNoticeResult={searchNoticeRes}
+            searchParam={searchParam}
+            setSearchParam={setSearchParam}
+            callbackSearchParam={callbackSearchParam}
+          />
+        </Stack>
+      </Container>
+    </Box>
   );
 };
