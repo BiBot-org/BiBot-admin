@@ -1,9 +1,12 @@
 import Config from "@/config/config.export";
 import { CustomAxios } from "@/constant/CustomAxios";
-import { SearchApprovalReq } from "@/types/approval/RequestType";
+import {
+  RequestApprovalReq,
+  SearchApprovalReq,
+} from "@/types/approval/RequestType";
 import { SearchApprovalRes } from "@/types/approval/ResponseType";
 import { GetApprovalThumbnailListRes } from "@/types/expense/ResponseType";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { AxiosError } from "axios";
 
 const { expenseServiceUrl } = Config();
@@ -36,4 +39,11 @@ export function useSearchApprovalInfoQuery(req: SearchApprovalReq) {
     ["searchApprovalInfo", req],
     async () => await SearchApprovalInfo(req)
   );
+}
+
+export async function RequestApproval(req: RequestApprovalReq) {
+  return await CustomAxios.put(
+    `${expenseServiceUrl}/api/admin/v1/approval`,
+    req
+  ).then((res) => res.data);
 }
