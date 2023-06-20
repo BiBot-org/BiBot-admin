@@ -50,6 +50,13 @@ export async function GetUser(userId: string) {
   return res;
 }
 
+export function useGetUser(userId: string) {
+  return useQuery<GetUserRes, AxiosError>(
+    ["user", userId],
+    async () => await GetUser(userId)
+  );
+}
+
 export async function GetUserInfo(userId: string) {
   const res: GetUserInfoRes = await CustomAxios.get(
     `${userServiceUrl}/api/v1/user/info`,

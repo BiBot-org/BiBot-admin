@@ -48,7 +48,6 @@ export const ApprovalTable = ({ searchParam, setSearchParam }: Props) => {
               <TableRow>
                 <TableCell>ID</TableCell>
                 <TableCell>날짜</TableCell>
-                <TableCell>항목</TableCell>
                 <TableCell>승인여부</TableCell>
                 <TableCell>사원명</TableCell>
               </TableRow>

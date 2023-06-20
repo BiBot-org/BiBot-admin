@@ -1,7 +1,14 @@
 import { useGetUserQuery } from "@/service/user/UserService";
 import { ApprovalInfo } from "@/types/expense/types";
 import { TableCell, TableRow } from "@mui/material";
-import { useQuery } from "@tanstack/react-query";
+import { SeverityPill } from "./severity-pill";
+import { getFormattedDateTimeFromLocalDateTime } from "@/utils/dateUtils";
+
+const statusMap: Record<string, string> = {
+  PENDING: "warning",
+  APPROVED: "success",
+  REJECTED: "error",
+};
 
 export function ApprovalThumbnailContent({
   approval,
@@ -20,8 +27,14 @@ export function ApprovalThumbnailContent({
           }`}</TableCell>
           <TableCell>{`${data?.data.department.name} / ${data?.data.team.name}`}</TableCell>
           <TableCell>{approval.category.categoryName}</TableCell>
-          <TableCell>{approval.createAt}</TableCell>
-          <TableCell>{approval.approval.status}</TableCell>
+          <TableCell>
+            {getFormattedDateTimeFromLocalDateTime(approval.createAt)}
+          </TableCell>
+          <TableCell>
+            <SeverityPill ownerState={statusMap[approval.approval.status]}>
+              {approval.approval.status}
+            </SeverityPill>
+          </TableCell>
         </TableRow>
       )}
     </>

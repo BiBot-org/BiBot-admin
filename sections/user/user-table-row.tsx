@@ -28,7 +28,6 @@ export const UserTableRow = ({ user, departmentInfoList }: Props) => {
         <TableCell>{user.team.name}</TableCell>
         <TableCell>{user.bibotUser.duty}</TableCell>
         <TableCell>{`${user.bibotUser.lastName} ${user.bibotUser.firstName}`}</TableCell>
-        <TableCell>5 / 9</TableCell>
       </TableRow>
     </>
   );

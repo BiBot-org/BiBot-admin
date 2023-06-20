@@ -66,7 +66,6 @@ export const UserTable = ({
                   <TableCell>소속</TableCell>
                   <TableCell>직책</TableCell>
                   <TableCell>이름</TableCell>
-                  <TableCell>결재건</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
