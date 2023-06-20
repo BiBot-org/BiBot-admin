@@ -17,7 +17,6 @@ import { userAuthState } from "@/state/user/atom/userLoginState";
 import { SessionProvider, useSession } from "next-auth/react";
 import { LoaderContent } from "@/sections/loader/loader-content";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 const clientSideEmotionCache = createEmotionCache();
 
 type NextPageWithLayout<P = {}, IP = P, auth = boolean> = NextPage<P, IP> & {
@@ -74,7 +73,6 @@ function App(props: BibotAppProps) {
     <CacheProvider value={emotionCache}>
       <SessionProvider session={pageProps.session}>
         <QueryClientProvider client={queryClient}>
-          <ReactQueryDevtools initialIsOpen />
           <RecoilRoot initializeState={initializeState}>
             <Head>
               <title>BiBot-org</title>
