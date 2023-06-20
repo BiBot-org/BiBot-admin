@@ -7,6 +7,11 @@ const withAlphas = (color: {
   dark?: string;
   darkest?: string;
   contrastText?: string;
+  alpha4?: string;
+  alpha8?: string;
+  alpha12?: string;
+  alpha30?: string;
+  alpha50?: string;
 }) => {
   return {
     ...color,

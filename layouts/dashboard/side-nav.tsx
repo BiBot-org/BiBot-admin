@@ -1,23 +1,11 @@
 import NextLink from "next/link";
 import { usePathname } from "next/navigation";
 import PropTypes from "prop-types";
-import ArrowTopRightOnSquareIcon from "@heroicons/react/24/solid/ArrowTopRightOnSquareIcon";
-import ChevronUpDownIcon from "@heroicons/react/24/solid/ChevronUpDownIcon";
-import {
-  Box,
-  Button,
-  Divider,
-  Drawer,
-  Stack,
-  SvgIcon,
-  Typography,
-  useMediaQuery,
-} from "@mui/material";
+import { Box, Divider, Drawer, Stack, useMediaQuery } from "@mui/material";
 import { Scrollbar } from "@/components/scrollbar";
 import { Logo } from "@/components/logo";
 import { SideNavItem } from "./sid-nav-item";
 import { items } from "./config";
-import { MyLogo } from "@/components/mylogo";
 
 export const SideNav = (props: any) => {
   const { open, onClose } = props;
@@ -53,7 +41,6 @@ export const SideNav = (props: any) => {
               width: 32,
             }}
           >
-            {/* <MyLogo /> */}
             <Logo />
           </Box>
         </Box>
@@ -81,8 +68,6 @@ export const SideNav = (props: any) => {
               return (
                 <SideNavItem
                   active={active}
-                  // disabled={item.disabled}
-                  // external={item.external}
                   icon={item.icon}
                   key={item.title}
                   path={item.path}

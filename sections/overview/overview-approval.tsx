@@ -1,4 +1,3 @@
-import { format } from "date-fns";
 import PropTypes from "prop-types";
 import ArrowRightIcon from "@heroicons/react/24/solid/ArrowRightIcon";
 import {
@@ -17,15 +16,29 @@ import {
 } from "@mui/material";
 import { Scrollbar } from "@/components/scrollbar";
 import { IOverviewApproval } from "@/types/approval/approvalType";
-
-const statusMap = {
-  pending: "warning",
-  approved: "success",
-  reject: "error",
-};
+import { useState } from "react";
+import { GetApprovalThumbnailList } from "@/service/expense/ExpenseService";
+import { ApprovalInfo } from "@/types/expense/types";
+import { useQuery } from "@tanstack/react-query";
+import { ApprovalThumbnailContent } from "../approval/approval-thumbnail-content";
+import { useRouter } from "next/navigation";
 
 export const OverviewApproval = (props: IOverviewApproval) => {
-  const { approvals = [], sx } = props;
+  const { sx } = props;
+  const [approvalList, setApprovalList] = useState<ApprovalInfo[]>([]);
+  const router = useRouter();
+
+  const { isLoading } = useQuery(
+    [`approvalThumbnail`],
+    () => GetApprovalThumbnailList(),
+    {
+      refetchOnWindowFocus: false,
+      retry: 0,
+      onSuccess: (data) => {
+        setApprovalList([...data.data]);
+      },
+    }
+  );
 
   return (
     <Card sx={sx}>
@@ -44,20 +57,16 @@ export const OverviewApproval = (props: IOverviewApproval) => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {approvals.map((approval) => {
-                const createdAt = format(approval.createdAt, "dd/MM/yyyy");
-
-                return (
-                  <TableRow hover key={approval.id}>
-                    <TableCell>{approval.id}</TableCell>
-                    <TableCell>{approval.name}</TableCell>
-                    <TableCell>{`${approval.division} / ${approval.team}`}</TableCell>
-                    <TableCell>{approval.approvalCategory}</TableCell>
-                    <TableCell>{createdAt}</TableCell>
-                    <TableCell>{approval.status}</TableCell>
-                  </TableRow>
-                );
-              })}
+              {approvalList &&
+                !isLoading &&
+                approvalList.map((approval) => {
+                  return (
+                    <ApprovalThumbnailContent
+                      key={approval.approval.id}
+                      approval={approval}
+                    />
+                  );
+                })}
             </TableBody>
           </Table>
         </Box>
@@ -73,6 +82,7 @@ export const OverviewApproval = (props: IOverviewApproval) => {
           }
           size="small"
           variant="text"
+          onClick={() => router.push("/approval")}
         >
           View all
         </Button>

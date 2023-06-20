@@ -1,13 +1,48 @@
 import React from "react";
 import Document, { Html, Head, Main, NextScript } from "next/document";
+import createEmotionServer from "@emotion/server/create-instance";
+import { createEmotionCache } from "@/utils/create-emotion-cache";
+import { EmotionCache } from "@emotion/cache";
 import { ServerStyleSheets } from "@mui/styles";
+import { CacheProvider } from "@emotion/react";
+
+const Favicon = () => (
+  <>
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="icon" href="/favicon.ico" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+  </>
+);
+
+const Fonts = () => (
+  <>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400&display=swap"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@600;700&display=swap"
+    />
+  </>
+);
 
 export default class MyDocument extends Document {
-  render() {
+  render(): JSX.Element {
     return (
       <Html>
+        <Head>
+          <Favicon />
+          <Fonts />
+        </Head>
         <body>
-          <Head></Head>
           <Main />
           <NextScript />
         </body>
@@ -17,18 +52,35 @@ export default class MyDocument extends Document {
 }
 
 MyDocument.getInitialProps = async (ctx) => {
-  const materialSheets = new ServerStyleSheets();
   const originalRenderPage = ctx.renderPage;
-
+  const cache: EmotionCache = createEmotionCache();
+  const { extractCriticalToChunks } = createEmotionServer(cache);
   ctx.renderPage = () =>
     originalRenderPage({
       enhanceApp: (App) => (props) =>
-        materialSheets.collect(<App {...props} />),
+        (
+          <CacheProvider value={cache}>
+            <App {...props} />
+          </CacheProvider>
+        ),
     });
 
   const initialProps = await Document.getInitialProps(ctx);
+  const emotionStyles = extractCriticalToChunks(initialProps.html);
+  const emotionStyleTags = emotionStyles.styles.map((style) => (
+    <style
+      data-emotion={`${style.key} ${style.ids.join(" ")}`}
+      key={style.key}
+      // eslint-disable-next-line react/no-danger
+      dangerouslySetInnerHTML={{ __html: style.css }}
+    />
+  ));
+
   return {
     ...initialProps,
-    styles: <>{initialProps.styles}</>,
+    styles: [
+      ...React.Children.toArray(initialProps.styles),
+      ...emotionStyleTags,
+    ],
   };
 };

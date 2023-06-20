@@ -10,8 +10,13 @@ import {
   TextField,
   Unstable_Grid2 as Grid,
 } from "@mui/material";
+import { BibotUserInfo } from "@/types/user/User";
 
-export const AccountMyProfileDetails = () => {
+interface Props {
+  userInfo?: BibotUserInfo;
+}
+
+export const AccountMyProfileDetails = ({ userInfo }: Props) => {
   const [values, setValues] = useState({
     email: "demo@devias.io",
     state: "los-angeles",
@@ -23,16 +28,6 @@ export const AccountMyProfileDetails = () => {
     team: "스파로스 개발팀",
     lank: "Manager",
   });
-
-  const handleChange = useCallback(
-    (event: { target: { name: any; value: any } }) => {
-      setValues((prevState) => ({
-        ...prevState,
-        [event.target.name]: event.target.value,
-      }));
-    },
-    []
-  );
 
   const handleSubmit = useCallback((event: { preventDefault: () => void }) => {
     event.preventDefault();
@@ -48,50 +43,19 @@ export const AccountMyProfileDetails = () => {
               <Grid xs={12} md={6}>
                 <TextField
                   fullWidth
-                  label="사번"
-                  name="firstName"
-                  onChange={handleChange}
-                  required
-                  value={values.identificationNumber}
-                />
-              </Grid>
-              <Grid xs={12} md={6}>
-                <TextField
-                  fullWidth
                   label="이름"
                   name="lastName"
-                  onChange={handleChange}
                   required
-                  value={values.name}
+                  value={`${userInfo?.bibotUser.lastName} ${userInfo?.bibotUser.firstName}`}
                 />
               </Grid>
               <Grid xs={12} md={6}>
                 <TextField
                   fullWidth
-                  label="부서 / 팀"
+                  label="부서"
                   name="division / team"
-                  onChange={handleChange}
                   required
-                  value={`${values.division} / ${values.team}`}
-                />
-              </Grid>
-              <Grid xs={12} md={6}>
-                <TextField
-                  fullWidth
-                  label="연락처"
-                  name="email"
-                  onChange={handleChange}
-                  value={values.phoneNumber}
-                />
-              </Grid>
-              <Grid xs={12} md={6}>
-                <TextField
-                  fullWidth
-                  label="직급"
-                  name="country"
-                  onChange={handleChange}
-                  required
-                  value={values.lank}
+                  value={`${userInfo?.department.name} / ${userInfo?.team.name}`}
                 />
               </Grid>
               <Grid xs={12} md={6}>
@@ -99,10 +63,9 @@ export const AccountMyProfileDetails = () => {
                   fullWidth
                   label="이메일"
                   name="state"
-                  onChange={handleChange}
-                  required
                   aria-readonly
-                  value={values.email}
+                  required
+                  value={userInfo?.bibotUser.email}
                 ></TextField>
               </Grid>
             </Grid>

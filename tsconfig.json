@@ -14,6 +14,7 @@
     "isolatedModules": true,
     "jsx": "preserve",
     "incremental": true,
+    "sourceMap": true,
     "plugins": [
       {
         "name": "next"
@@ -25,10 +26,11 @@
   },
   "include": [
     "next-env.d.ts",
+    "next-auth.d.ts",
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts",
-    "layouts/dashboard/layout.tsㅌ"
+    "layouts/dashboard/layout.ts"
   ],
   "exclude": ["node_modules"]
 }

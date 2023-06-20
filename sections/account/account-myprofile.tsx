@@ -1,3 +1,4 @@
+import { BibotUserInfo } from "@/types/user/User";
 import {
   Avatar,
   Box,
@@ -18,7 +19,11 @@ const user = {
   lank: "사원",
 };
 
-export const AccountMyProfile = () => (
+interface Props {
+  userInfo?: BibotUserInfo;
+}
+
+export const AccountMyProfile = ({ userInfo }: Props) => (
   <Card>
     <CardContent>
       <Box
@@ -28,23 +33,24 @@ export const AccountMyProfile = () => (
           flexDirection: "column",
         }}
       >
-        <Avatar
-          src={user.avatar}
-          sx={{
-            height: 175,
-            mb: 2,
-            width: 175,
-          }}
-        />
-        <Typography gutterBottom variant="h5">
-          {user.name}
-        </Typography>
-        <Typography color="text.secondary" variant="body2">
-          {user.division} {user.team}
-        </Typography>
-        <Typography color="text.secondary" variant="body2">
-          {user.lank}
-        </Typography>
+        {userInfo && (
+          <>
+            <Avatar
+              src={userInfo.bibotUser.profileUrl}
+              sx={{
+                height: 175,
+                mb: 2,
+                width: 175,
+              }}
+            />
+            <Typography gutterBottom variant="h5">
+              {`${userInfo.bibotUser.lastName} ${userInfo.bibotUser.firstName}`}
+            </Typography>
+            <Typography color="text.secondary" variant="body1">
+              {userInfo.department.name} {userInfo.team.name}
+            </Typography>
+          </>
+        )}
       </Box>
     </CardContent>
     <Divider />

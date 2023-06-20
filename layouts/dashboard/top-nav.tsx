@@ -1,10 +1,9 @@
+"use client";
 import PropTypes from "prop-types";
 import BellIcon from "@heroicons/react/24/solid/BellIcon";
-import UsersIcon from "@heroicons/react/24/solid/UsersIcon";
 import Bars3Icon from "@heroicons/react/24/solid/Bars3Icon";
 import QuestionMarkCircleIcon from "@heroicons/react/24/solid/QuestionMarkCircleIcon";
 
-import MagnifyingGlassIcon from "@heroicons/react/24/solid/MagnifyingGlassIcon";
 import {
   Avatar,
   Badge,
@@ -19,6 +18,12 @@ import { alpha } from "@mui/material/styles";
 import { usePopover } from "@/hooks/use-popover";
 import { AccountPopover } from "./account-popover";
 import { NotificationPopover } from "./notification-popover";
+import { useRecoilState } from "recoil";
+import { BibotUserInfo } from "@/types/user/User";
+import { userInfoState } from "@/state/user/atom/userInfoState";
+import { useQuery } from "@tanstack/react-query";
+import { GetUserInfo } from "@/service/user/UserService";
+import { useSession } from "next-auth/react";
 
 const SIDE_NAV_WIDTH = 280;
 const TOP_NAV_HEIGHT = 64;
@@ -26,8 +31,22 @@ const TOP_NAV_HEIGHT = 64;
 export const TopNav = (props: any) => {
   const { onNavOpen } = props;
   const lgUp = useMediaQuery((theme: any) => theme.breakpoints.up("lg"));
+  const [userInfo, setUserInfo] = useRecoilState<BibotUserInfo>(userInfoState);
   const accountPopover = usePopover();
   const notificationPopover = usePopover();
+  const session = useSession();
+  const userId = session.data?.tokenInfo.id;
+  const { isLoading } = useQuery(
+    [`userInfo : ${userId}`],
+    () => GetUserInfo(userId),
+    {
+      refetchOnWindowFocus: false,
+      retry: 0,
+      onSuccess: (data) => {
+        setUserInfo(data.data);
+      },
+    }
+  );
 
   return (
     <>
@@ -85,17 +104,18 @@ export const TopNav = (props: any) => {
                 </SvgIcon>
               </Badge>
             </IconButton>
-
-            <Avatar
-              onClick={accountPopover.handleOpen}
-              ref={accountPopover.anchorRef}
-              sx={{
-                cursor: "pointer",
-                height: 40,
-                width: 40,
-              }}
-              src="/assets/avatars/avatar-anika-visser.png"
-            />
+            {!isLoading && (
+              <Avatar
+                onClick={accountPopover.handleOpen}
+                ref={accountPopover.anchorRef}
+                sx={{
+                  cursor: "pointer",
+                  height: 40,
+                  width: 40,
+                }}
+                src={userInfo.bibotUser.profileUrl}
+              />
+            )}
           </Stack>
         </Stack>
       </Box>

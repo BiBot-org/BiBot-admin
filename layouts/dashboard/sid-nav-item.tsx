@@ -1,7 +1,6 @@
 import NextLink from "next/link";
 import PropTypes from "prop-types";
 import { Box, ButtonBase } from "@mui/material";
-import { jsx } from "@emotion/react";
 
 interface iProp {
   active: boolean;
